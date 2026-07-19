@@ -73,10 +73,9 @@ export default {
       }
 
       const imageUrl = 'attachment://support_card.png';
-      const { embed, components } = buildTicketPanel(imageUrl);
+      const { components } = buildTicketPanel(imageUrl);
 
       const panelMsg = await interaction.channel.send({
-        embeds: [embed],
         components: [...components],
         files: [assetPath],
       });
