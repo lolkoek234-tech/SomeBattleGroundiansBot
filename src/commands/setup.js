@@ -77,7 +77,7 @@ export default {
       const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
         body: {
           flags: 32768,
-          components: panelData.components.map(row => row.toJSON()),
+          components: panelData.components,
         },
       });
 
