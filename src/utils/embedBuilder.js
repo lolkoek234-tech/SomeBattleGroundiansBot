@@ -1,11 +1,12 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, SectionBuilder, ThumbnailBuilder, ContainerBuilder, MessageFlags } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, FileBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (imageUrl) => {
   const separator = new SeparatorBuilder().setDivider();
 
-  const rulesText = new TextDisplayBuilder().setContent([
-    '## Rules',
+  const welcomeText = new TextDisplayBuilder().setContent([
+    '## Ticket System',
     '',
+    '**Rules**',
     'Be respectful to all staff members',
     'Do not abuse the ticket system',
     'Provide as much detail as possible',
@@ -13,10 +14,7 @@ export const buildTicketPanel = (imageUrl) => {
     'False reports may result in punishment',
   ].join('\n'));
 
-  const thumb = new ThumbnailBuilder().setURL(imageUrl);
-  const section = new SectionBuilder()
-    .addTextDisplayComponents(new TextDisplayBuilder().setContent('\u200b'))
-    .setThumbnailAccessory(thumb);
+  const image = new FileBuilder().setURL(imageUrl);
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
@@ -31,9 +29,9 @@ export const buildTicketPanel = (imageUrl) => {
     flags: MessageFlags.IsComponentsV2,
     components: [
       new ActionRowBuilder().addComponents(separator),
-      new ActionRowBuilder().addComponents(rulesText),
+      new ActionRowBuilder().addComponents(welcomeText),
       new ActionRowBuilder().addComponents(separator),
-      new ActionRowBuilder().addComponents(section),
+      new ActionRowBuilder().addComponents(image),
       new ActionRowBuilder().addComponents(separator),
       new ActionRowBuilder().addComponents(dropdown),
     ],
@@ -44,17 +42,13 @@ export const buildTicketOpener = (type, ticketNumber) => {
   return {
     flags: MessageFlags.IsComponentsV2,
     components: [
-      new ActionRowBuilder().addComponents(
-        new SeparatorBuilder().setDivider()
-      ),
+      new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
       new ActionRowBuilder().addComponents(
         new TextDisplayBuilder().setContent(
           `## Ticket #${ticketNumber} — ${type}\n\nStaff will be with you shortly. Please describe your issue.`
         )
       ),
-      new ActionRowBuilder().addComponents(
-        new SeparatorBuilder().setDivider()
-      ),
+      new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
     ],
   };
 };
