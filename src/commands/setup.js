@@ -77,9 +77,9 @@ export default {
 
       const images = {
         ticketTypes: [
-          { url: 'attachment://General Support.png', label: 'Support' },
+          { url: 'attachment://General%20Support.png', label: 'Support' },
           { url: 'attachment://Report.png', label: 'Player Report' },
-          { url: 'attachment://Content Creator.png', label: 'Content Creator Application' },
+          { url: 'attachment://Content%20Creator.png', label: 'Content Creator Application' },
         ],
       };
 
