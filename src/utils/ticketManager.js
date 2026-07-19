@@ -6,7 +6,7 @@ import { generateTranscript } from './transcript.js';
 const TICKET_TYPES = {
   support: 'Support',
   player_report: 'Player Report',
-  staff_app: 'Staff Application',
+  content_creator: 'Content Creator Application',
 };
 
 const isStaff = (member, config) => {
