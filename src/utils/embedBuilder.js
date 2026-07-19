@@ -20,9 +20,9 @@ export const buildTicketPanel = (images) => {
   }
 
   const types = [
-    { id: 'support', label: 'Support', desc: 'Get help with server issues', img: images?.ticketTypes?.support, style: ButtonStyle.Primary },
-    { id: 'player_report', label: 'Player Report', desc: 'Report a player for rule violations', img: images?.ticketTypes?.player_report, style: ButtonStyle.Danger },
-    { id: 'content_creator', label: 'Content Creator Application', desc: 'Apply for content creator', img: images?.ticketTypes?.content_creator, style: ButtonStyle.Success },
+    { id: 'support', label: 'Support', desc: 'Get help with server issues', img: images?.ticketTypes?.support },
+    { id: 'player_report', label: 'Player Report', desc: 'Report a player for rule violations', img: images?.ticketTypes?.player_report },
+    { id: 'content_creator', label: 'Content Creator Application', desc: 'Apply for content creator', img: images?.ticketTypes?.content_creator },
   ];
 
   for (const t of types) {
@@ -37,7 +37,7 @@ export const buildTicketPanel = (images) => {
         new ButtonBuilder()
           .setCustomId(`create_ticket:${t.id}`)
           .setLabel(t.label)
-          .setStyle(t.style),
+          .setStyle(ButtonStyle.Secondary),
       ),
     );
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
