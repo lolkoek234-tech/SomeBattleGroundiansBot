@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes, MessageFlags } from 'discord.js';
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
@@ -14,7 +14,7 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     await interaction.editReply('Please mention the staff roles that should have access to tickets (e.g. @Admin @Mod). Send one or more messages mentioning roles, then type `done` when finished.');
 
