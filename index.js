@@ -1,7 +1,6 @@
 import { config } from 'dotenv';
 config();
 import { Client, GatewayIntentBits, REST, Routes, Collection } from 'discord.js';
-import { handleTicketButton } from './src/interactions/ticketButton.js';
 import { handleTicketDropdown } from './src/interactions/ticketDropdown.js';
 import { handleClaimButton } from './src/interactions/claimButton.js';
 import { handleCloseButton } from './src/interactions/closeButton.js';
@@ -48,7 +47,7 @@ client.on('interactionCreate', async (interaction) => {
     return;
   }
 
-  const handlers = [handleTicketButton, handleTicketDropdown, handleClaimButton, handleCloseButton];
+  const handlers = [handleTicketDropdown, handleClaimButton, handleCloseButton];
   for (const handler of handlers) {
     try {
       const handled = await handler(interaction);

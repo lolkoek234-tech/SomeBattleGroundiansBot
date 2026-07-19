@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChannelType } from 'discord.js';
 import { existsSync } from 'fs';
 import { configManager } from '../configManager.js';
-import { buildTicketPanel, buildDropdown } from '../utils/embedBuilder.js';
+import { buildTicketPanel } from '../utils/embedBuilder.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
