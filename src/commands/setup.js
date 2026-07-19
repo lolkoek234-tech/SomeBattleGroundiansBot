@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes } from 'discord.js';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
 import { fileURLToPath } from 'url';
@@ -72,9 +72,11 @@ export default {
         return interaction.editReply('❌ Setup failed: `assets/support_card.png` not found. Please add the image file.');
       }
 
-      const panelData = buildTicketPanel('');
+      const imageBuffer = readFileSync(assetPath);
+      const panelData = buildTicketPanel('attachment://support_card.png');
 
       const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
+        files: [{ data: imageBuffer, name: 'support_card.png', contentType: 'image/png' }],
         body: {
           flags: 32768,
           components: panelData.components,
