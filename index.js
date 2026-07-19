@@ -6,7 +6,7 @@ import { handleTicketDropdown } from './src/interactions/ticketDropdown.js';
 import { handleClaimButton } from './src/interactions/claimButton.js';
 import { handleCloseButton } from './src/interactions/closeButton.js';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 
