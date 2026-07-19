@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, SectionBuilder, ThumbnailBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (images) => {
   const container = new ContainerBuilder()
@@ -10,30 +10,41 @@ export const buildTicketPanel = (images) => {
     ].join('\n')))
     .addSeparatorComponents(new SeparatorBuilder().setDivider());
 
-  if (images?.ticketTypes?.length) {
-    const gallery = new MediaGalleryBuilder();
-    for (const t of images.ticketTypes) {
-      gallery.addItems(new MediaGalleryItemBuilder().setURL(t.url).setDescription(t.label));
+  if (images?.banner) {
+    container.addMediaGalleryComponents(
+      new MediaGalleryBuilder().addItems(
+        new MediaGalleryItemBuilder().setURL(images.banner),
+      ),
+    );
+    container.addSeparatorComponents(new SeparatorBuilder().setDivider());
+  }
+
+  const types = [
+    { id: 'support', label: 'Support', desc: 'Get help with server issues', img: images?.ticketTypes?.support, style: ButtonStyle.Primary },
+    { id: 'player_report', label: 'Player Report', desc: 'Report a player for rule violations', img: images?.ticketTypes?.player_report, style: ButtonStyle.Danger },
+    { id: 'content_creator', label: 'Content Creator Application', desc: 'Apply for content creator', img: images?.ticketTypes?.content_creator, style: ButtonStyle.Success },
+  ];
+
+  for (const t of types) {
+    if (t.img) {
+      const section = new SectionBuilder()
+        .addTextDisplayComponents(new TextDisplayBuilder().setContent(`### ${t.label}\n${t.desc}`))
+        .setThumbnailAccessory(new ThumbnailBuilder().setURL(t.img));
+      container.addSectionComponents(section);
     }
-    container.addMediaGalleryComponents(gallery);
+    container.addActionRowComponents(
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`create_ticket:${t.id}`)
+          .setLabel(t.label)
+          .setStyle(t.style),
+      ),
+    );
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
   }
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent('-# *Battlegroundians support team*'),
-  );
-
-  const dropdown = new StringSelectMenuBuilder()
-    .setCustomId('ticket_type_select')
-    .setPlaceholder('Select a ticket type...')
-    .addOptions([
-      { label: 'Support', value: 'support', description: 'Get help with server issues' },
-      { label: 'Player Report', value: 'player_report', description: 'Report a player for rule violations' },
-      { label: 'Content Creator Application', value: 'content_creator', description: 'Apply for content creator' },
-    ]);
-
-  container.addActionRowComponents(
-    new ActionRowBuilder().addComponents(dropdown),
   );
 
   return {

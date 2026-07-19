@@ -1,11 +1,12 @@
 import { MessageFlags } from 'discord.js';
 import { ticketManager } from '../utils/ticketManager.js';
 
-export const handleTicketDropdown = async (interaction) => {
-  if (!interaction.isStringSelectMenu() || interaction.customId !== 'ticket_type_select') return false;
+export const handleCreateTicket = async (interaction) => {
+  if (!interaction.isButton() || !interaction.customId.startsWith('create_ticket:')) return false;
 
-  const type = interaction.values[0];
+  const type = interaction.customId.split(':')[1];
   if (!type) return false;
+
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
   try {

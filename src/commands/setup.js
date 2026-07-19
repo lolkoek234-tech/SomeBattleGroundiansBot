@@ -76,11 +76,12 @@ export default {
       }
 
       const images = {
-        ticketTypes: [
-          { url: 'attachment://general_support.png', label: 'Support' },
-          { url: 'attachment://report.png', label: 'Player Report' },
-          { url: 'attachment://content_creator.png', label: 'Content Creator Application' },
-        ],
+        banner: 'attachment://support_card.png',
+        ticketTypes: {
+          support: 'attachment://general_support.png',
+          player_report: 'attachment://report.png',
+          content_creator: 'attachment://content_creator.png',
+        },
       };
 
       const panelData = buildTicketPanel(images);
