@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, ChannelType } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes } from 'discord.js';
 import { existsSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
@@ -74,7 +74,17 @@ export default {
 
       const panelData = buildTicketPanel('');
 
-      const panelMsg = await interaction.channel.send(panelData);
+      const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
+        body: {
+          flags: 32768,
+          components: panelData.components.map(row => row.toJSON()),
+        },
+      });
+
+      let panelMsg = interaction.channel.messages.cache.get(panelMsgRaw.id);
+      if (!panelMsg) {
+        panelMsg = await interaction.channel.messages.fetch(panelMsgRaw.id);
+      }
 
       configManager.set(interaction.guild.id, {
         staffRoles,

@@ -1,6 +1,6 @@
-import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors, SeparatorBuilder, TextDisplayBuilder, ActionRowBuilder } from 'discord.js';
+import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors, SeparatorBuilder, TextDisplayBuilder, ActionRowBuilder, Routes } from 'discord.js';
 import { configManager } from '../configManager.js';
-import { buildTicketControls, buildTicketOpener } from './embedBuilder.js';
+import { buildTicketOpener } from './embedBuilder.js';
 import { generateTranscript } from './transcript.js';
 
 const TICKET_TYPES = {
@@ -43,9 +43,10 @@ export const ticketManager = {
     });
 
     await channel.send({ content: `${member}` });
-    const ticketMsg = buildTicketOpener(TICKET_TYPES[type], ticketNumber);
-    const controls = buildTicketControls();
-    await channel.send({ ...ticketMsg, components: [...ticketMsg.components, controls] });
+    const opener = buildTicketOpener(TICKET_TYPES[type], ticketNumber);
+    await guild.client.rest.post(Routes.channelMessages(channel.id), {
+      body: { flags: 32768, components: opener.components },
+    });
 
     return channel;
   },
@@ -57,17 +58,20 @@ export const ticketManager = {
 
     if (!interaction.channel.name.match(/^ticket-\d+$/)) throw new Error('This is not a ticket channel.');
 
-    const controls = buildTicketControls(interaction.member.displayName);
-    const claimedText = new TextDisplayBuilder().setContent(`## Ticket claimed by ${interaction.member}`);
+    await interaction.deferUpdate();
 
-    await interaction.update({
-      components: [
-        ...interaction.message.components.slice(0, -1),
-        new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
-        new ActionRowBuilder().addComponents(claimedText),
-        controls,
-      ],
-    });
+    const msg = interaction.message;
+    const components = [
+      ...msg.components.slice(0, -1),
+      { type: 1, components: [{ type: 14, divider: true }] },
+      { type: 10, content: `## Ticket claimed by ${interaction.member}` },
+      msg.components[msg.components.length - 1],
+    ];
+
+    await interaction.client.rest.patch(
+      Routes.channelMessage(interaction.channelId, msg.id),
+      { body: { components } },
+    );
   },
 
   async close(interaction) {

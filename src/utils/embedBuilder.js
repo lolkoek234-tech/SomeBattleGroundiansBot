@@ -26,43 +26,26 @@ export const buildTicketPanel = (_imageUrl) => {
   return {
     flags: MessageFlags.IsComponentsV2,
     components: [
-      new ActionRowBuilder().addComponents(separator),
-      new ActionRowBuilder().addComponents(welcomeText),
-      new ActionRowBuilder().addComponents(separator),
-      new ActionRowBuilder().addComponents(dropdown),
+      separator.toJSON(),
+      welcomeText.toJSON(),
+      separator.toJSON(),
+      new ActionRowBuilder().addComponents(dropdown).toJSON(),
     ],
   };
 };
 
 export const buildTicketOpener = (type, ticketNumber) => {
+  const separator = new SeparatorBuilder().setDivider();
   return {
     flags: MessageFlags.IsComponentsV2,
     components: [
-      new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
+      separator.toJSON(),
+      new TextDisplayBuilder().setContent(`## Ticket #${ticketNumber} — ${type}\nA staff member will be with you shortly. Please describe your issue.`).toJSON(),
+      separator.toJSON(),
       new ActionRowBuilder().addComponents(
-        new TextDisplayBuilder().setContent(
-          `## Ticket #${ticketNumber} — ${type}\n\nStaff will be with you shortly. Please describe your issue.`
-        )
-      ),
-      new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
+        new ButtonBuilder().setCustomId('claim_ticket').setLabel('Claim').setStyle(ButtonStyle.Primary),
+        new ButtonBuilder().setCustomId('close_ticket').setLabel('Close').setStyle(ButtonStyle.Danger),
+      ).toJSON(),
     ],
   };
-};
-
-export const buildTicketControls = (claimedBy = null) => {
-  const claimBtn = new ButtonBuilder()
-    .setCustomId('claim_ticket')
-    .setLabel(claimedBy ? `Claimed by ${claimedBy}` : 'Claim Ticket')
-    .setStyle(claimedBy ? ButtonStyle.Secondary : ButtonStyle.Primary)
-    .setEmoji('🙋')
-    .setDisabled(!!claimedBy);
-
-  const closeBtn = new ButtonBuilder()
-    .setCustomId('close_ticket')
-    .setLabel('Close Ticket')
-    .setStyle(ButtonStyle.Danger)
-    .setEmoji('🔒')
-    .setDisabled(!claimedBy);
-
-  return new ActionRowBuilder().addComponents(claimBtn, closeBtn);
 };
