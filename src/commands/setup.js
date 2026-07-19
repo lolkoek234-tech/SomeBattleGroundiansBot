@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes, MessageFlags } from 'discord.js';
-import { existsSync, readFileSync, readdirSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
 import { fileURLToPath } from 'url';
-import { dirname, join, extname } from 'path';
+import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -68,7 +68,7 @@ export default {
       }
 
       const assetDir = join(__dirname, '..', '..', 'assets');
-      const imageFiles = ['support_card.png', 'General Support.png', 'Report.png', 'Content Creator.png'];
+      const imageFiles = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
       for (const f of imageFiles) {
         if (!existsSync(join(assetDir, f))) {
           return interaction.editReply(`❌ Setup failed: \`assets/${f}\` not found.`);
@@ -77,9 +77,9 @@ export default {
 
       const images = {
         ticketTypes: [
-          { url: 'attachment://General%20Support.png', label: 'Support' },
-          { url: 'attachment://Report.png', label: 'Player Report' },
-          { url: 'attachment://Content%20Creator.png', label: 'Content Creator Application' },
+          { url: 'attachment://general_support.png', label: 'Support' },
+          { url: 'attachment://report.png', label: 'Player Report' },
+          { url: 'attachment://content_creator.png', label: 'Content Creator Application' },
         ],
       };
 
