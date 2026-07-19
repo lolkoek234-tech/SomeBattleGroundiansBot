@@ -1,25 +1,20 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, SectionBuilder, ThumbnailBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (imageUrl) => {
-  const rulesContent = [
-    '## Ticket System',
-    '',
-    '**Rules**',
-    '• Be respectful to all staff members',
-    '• Do not abuse the ticket system',
-    '• Provide as much detail as possible',
-    '• Bumping/pinging will not speed up response',
-    '• False reports may result in punishment',
-  ].join('\n');
-
   const container = new ContainerBuilder()
     .setAccentColor(0x5865F2)
-    .addTextDisplayComponents(new TextDisplayBuilder().setContent(rulesContent))
+    .addTextDisplayComponents(new TextDisplayBuilder().setContent([
+      '## Battlegroundians Ticket Support',
+      '',
+      'If you require assistance, please select an option below.',
+    ].join('\n')))
     .addSeparatorComponents(new SeparatorBuilder().setDivider());
 
   if (imageUrl) {
     const section = new SectionBuilder()
-      .addTextDisplayComponents(new TextDisplayBuilder().setContent('Select a category below to get started.'))
+      .addTextDisplayComponents(new TextDisplayBuilder().setContent([
+        '*Battlegroundians support team*',
+      ].join('\n')))
       .setThumbnailAccessory(new ThumbnailBuilder().setURL(imageUrl));
     container.addSectionComponents(section);
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
