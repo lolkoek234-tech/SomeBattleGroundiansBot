@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, SectionBuilder, ThumbnailBuilder, MessageFlags } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (imageUrl) => {
   const container = new ContainerBuilder()
@@ -11,13 +11,17 @@ export const buildTicketPanel = (imageUrl) => {
     .addSeparatorComponents(new SeparatorBuilder().setDivider());
 
   if (imageUrl) {
-    const section = new SectionBuilder()
-      .addTextDisplayComponents(new TextDisplayBuilder().setContent([
-        '*Battlegroundians support team*',
-      ].join('\n')))
-      .setThumbnailAccessory(new ThumbnailBuilder().setURL(imageUrl));
-    container.addSectionComponents(section);
+    container.addMediaGalleryComponents(
+      new MediaGalleryBuilder().addItems(
+        new MediaGalleryItemBuilder().setURL(imageUrl),
+      ),
+    );
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
+    container.addTextDisplayComponents(
+      new TextDisplayBuilder().setContent([
+        '-# *Battlegroundians support team*',
+      ].join('\n')),
+    );
   }
 
   const dropdown = new StringSelectMenuBuilder()
