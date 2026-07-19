@@ -73,11 +73,10 @@ export default {
       }
 
       const imageUrl = 'attachment://support_card.png';
-      const { components } = buildTicketPanel(imageUrl);
-
-      console.log('Sending panel with components:', JSON.stringify(components.map(c => c.toJSON?.() || c)));
+      const { embed, components } = buildTicketPanel(imageUrl);
 
       const panelMsg = await interaction.channel.send({
+        embeds: [embed],
         components: [...components],
         files: [assetPath],
       });
@@ -93,8 +92,8 @@ export default {
 
       await interaction.editReply('✅ Ticket system is set up!');
     } catch (err) {
-      console.error('Setup failed:', err.message, err.code, err.status);
-      await interaction.editReply(`❌ Setup failed: ${err.message}`);
+      console.error('Setup failed:', err);
+      await interaction.editReply('❌ Setup failed. Make sure the bot has proper permissions and try again.');
     }
   }
 };

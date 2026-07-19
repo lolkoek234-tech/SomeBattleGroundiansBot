@@ -1,4 +1,4 @@
-import { PermissionFlagsBits, ChannelType, TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, Colors } from 'discord.js';
+import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors } from 'discord.js';
 import { configManager } from '../configManager.js';
 import { buildTicketControls, buildTicketMessage } from './embedBuilder.js';
 import { generateTranscript } from './transcript.js';
@@ -58,17 +58,12 @@ export const ticketManager = {
 
     const controls = buildTicketControls(interaction.member.displayName);
 
-    const claimedText = new TextDisplayBuilder()
-      .setContent(`## ✅ Ticket claimed by ${interaction.member}`);
+    const embed = new EmbedBuilder()
+      .setColor(Colors.Green)
+      .setDescription(`Ticket claimed by ${interaction.member}`)
+      .setTimestamp();
 
-    await interaction.update({
-      components: [
-        ...interaction.message.components.slice(0, -1),
-        new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
-        new ActionRowBuilder().addComponents(claimedText),
-        controls,
-      ],
-    });
+    await interaction.update({ embeds: [interaction.message.embeds[0], embed], components: [controls] });
   },
 
   async close(interaction) {
