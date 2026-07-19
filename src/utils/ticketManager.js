@@ -1,6 +1,6 @@
-import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors } from 'discord.js';
+import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors, SeparatorBuilder, TextDisplayBuilder, ActionRowBuilder } from 'discord.js';
 import { configManager } from '../configManager.js';
-import { buildTicketControls, buildTicketMessage } from './embedBuilder.js';
+import { buildTicketControls, buildTicketOpener } from './embedBuilder.js';
 import { generateTranscript } from './transcript.js';
 
 const TICKET_TYPES = {
@@ -42,7 +42,8 @@ export const ticketManager = {
       topic: `Ticket #${ticketNumber} | ${TICKET_TYPES[type]} | Created by ${member.user.tag}`,
     });
 
-    const ticketMsg = buildTicketMessage(TICKET_TYPES[type], ticketNumber, member);
+    await channel.send({ content: `${member}` });
+    const ticketMsg = buildTicketOpener(TICKET_TYPES[type], ticketNumber);
     const controls = buildTicketControls();
     await channel.send({ ...ticketMsg, components: [...ticketMsg.components, controls] });
 
@@ -57,13 +58,16 @@ export const ticketManager = {
     if (!interaction.channel.name.match(/^ticket-\d+$/)) throw new Error('This is not a ticket channel.');
 
     const controls = buildTicketControls(interaction.member.displayName);
+    const claimedText = new TextDisplayBuilder().setContent(`## Ticket claimed by ${interaction.member}`);
 
-    const embed = new EmbedBuilder()
-      .setColor(Colors.Green)
-      .setDescription(`Ticket claimed by ${interaction.member}`)
-      .setTimestamp();
-
-    await interaction.update({ embeds: [interaction.message.embeds[0], embed], components: [controls] });
+    await interaction.update({
+      components: [
+        ...interaction.message.components.slice(0, -1),
+        new ActionRowBuilder().addComponents(new SeparatorBuilder().setDivider()),
+        new ActionRowBuilder().addComponents(claimedText),
+        controls,
+      ],
+    });
   },
 
   async close(interaction) {

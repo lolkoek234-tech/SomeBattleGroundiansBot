@@ -1,21 +1,22 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, SectionBuilder, ThumbnailBuilder, ContainerBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (imageUrl) => {
-  const embed = new EmbedBuilder()
-    .setTitle('Ticket System')
-    .setColor(0x5865F2)
-    .addFields(
-      { name: '\u200b', value: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━', inline: false },
-      { name: 'Rules', value: [
-        'Be respectful to all staff members',
-        'Do not abuse the ticket system',
-        'Provide as much detail as possible',
-        'Bumping/pinging will not speed up response',
-        'False reports may result in punishment',
-      ].join('\n'), inline: false },
-      { name: '\u200b', value: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━', inline: false },
-    )
-    .setImage(imageUrl);
+  const separator = new SeparatorBuilder().setDivider();
+
+  const rulesText = new TextDisplayBuilder().setContent([
+    '## Rules',
+    '',
+    'Be respectful to all staff members',
+    'Do not abuse the ticket system',
+    'Provide as much detail as possible',
+    'Bumping/pinging will not speed up response',
+    'False reports may result in punishment',
+  ].join('\n'));
+
+  const thumb = new ThumbnailBuilder().setURL(imageUrl);
+  const section = new SectionBuilder()
+    .addTextDisplayComponents(new TextDisplayBuilder().setContent('\u200b'))
+    .setThumbnailAccessory(thumb);
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
@@ -26,17 +27,36 @@ export const buildTicketPanel = (imageUrl) => {
       { label: 'Staff Application', value: 'staff_app', description: 'Apply for a staff position' },
     ]);
 
-  return { embed, components: [new ActionRowBuilder().addComponents(dropdown)] };
+  return {
+    flags: MessageFlags.IsComponentsV2,
+    components: [
+      new ActionRowBuilder().addComponents(separator),
+      new ActionRowBuilder().addComponents(rulesText),
+      new ActionRowBuilder().addComponents(separator),
+      new ActionRowBuilder().addComponents(section),
+      new ActionRowBuilder().addComponents(separator),
+      new ActionRowBuilder().addComponents(dropdown),
+    ],
+  };
 };
 
-export const buildTicketMessage = (type, ticketNumber, member) => {
-  const embed = new EmbedBuilder()
-    .setTitle(`Ticket #${ticketNumber} — ${type}`)
-    .setColor(0x5865F2)
-    .setDescription('Staff will be with you shortly. Please describe your issue.')
-    .setTimestamp();
-
-  return { content: `${member}`, embeds: [embed] };
+export const buildTicketOpener = (type, ticketNumber) => {
+  return {
+    flags: MessageFlags.IsComponentsV2,
+    components: [
+      new ActionRowBuilder().addComponents(
+        new SeparatorBuilder().setDivider()
+      ),
+      new ActionRowBuilder().addComponents(
+        new TextDisplayBuilder().setContent(
+          `## Ticket #${ticketNumber} — ${type}\n\nStaff will be with you shortly. Please describe your issue.`
+        )
+      ),
+      new ActionRowBuilder().addComponents(
+        new SeparatorBuilder().setDivider()
+      ),
+    ],
+  };
 };
 
 export const buildTicketControls = (claimedBy = null) => {
