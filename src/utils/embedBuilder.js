@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, SectionBuilder, ThumbnailBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
 
 export const buildTicketPanel = (images) => {
   const container = new ContainerBuilder()
@@ -19,30 +19,18 @@ export const buildTicketPanel = (images) => {
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
   }
 
-  const types = [
-    { id: 'support', label: 'Support', desc: 'Get help with server issues', img: images?.ticketTypes?.support },
-    { id: 'player_report', label: 'Player Report', desc: 'Report a player for rule violations', img: images?.ticketTypes?.player_report },
-    { id: 'content_creator', label: 'Content Creator Application', desc: 'Apply for content creator', img: images?.ticketTypes?.content_creator },
-  ];
+  const dropdown = new StringSelectMenuBuilder()
+    .setCustomId('ticket_type_select')
+    .setPlaceholder('Select a ticket type...')
+    .addOptions([
+      { label: 'Support', value: 'support', emoji: '🛠️', description: 'Get help with server issues' },
+      { label: 'Player Report', value: 'player_report', emoji: '📝', description: 'Report a player for rule violations' },
+      { label: 'Content Creator Application', value: 'content_creator', emoji: '🎥', description: 'Apply for content creator' },
+    ]);
 
-  for (const t of types) {
-    if (t.img) {
-      const section = new SectionBuilder()
-        .addTextDisplayComponents(new TextDisplayBuilder().setContent(`### ${t.label}\n${t.desc}`))
-        .setThumbnailAccessory(new ThumbnailBuilder().setURL(t.img));
-      container.addSectionComponents(section);
-    }
-    container.addActionRowComponents(
-      new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId(`create_ticket:${t.id}`)
-          .setLabel(t.label)
-          .setStyle(ButtonStyle.Secondary),
-      ),
-    );
-    container.addSeparatorComponents(new SeparatorBuilder().setDivider());
-  }
-
+  container.addActionRowComponents(
+    new ActionRowBuilder().addComponents(dropdown),
+  );
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent('-# *Battlegroundians support team*'),
   );
