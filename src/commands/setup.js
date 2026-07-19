@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes } from 'discord.js';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, readdirSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname, join, extname } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -67,16 +67,30 @@ export default {
         });
       }
 
-      const assetPath = join(__dirname, '..', '..', 'assets', 'support_card.png');
-      if (!existsSync(assetPath)) {
-        return interaction.editReply('❌ Setup failed: `assets/support_card.png` not found. Please add the image file.');
+      const assetDir = join(__dirname, '..', '..', 'assets');
+      const imageFiles = ['support_card.png', 'General Support.png', 'Report.png', 'Content Creator.png'];
+      for (const f of imageFiles) {
+        if (!existsSync(join(assetDir, f))) {
+          return interaction.editReply(`❌ Setup failed: \`assets/${f}\` not found.`);
+        }
       }
 
-      const imageBuffer = readFileSync(assetPath);
-      const panelData = buildTicketPanel('attachment://support_card.png');
+      const images = {
+        ticketTypes: [
+          { url: 'attachment://General Support.png', label: 'Support' },
+          { url: 'attachment://Report.png', label: 'Player Report' },
+          { url: 'attachment://Content Creator.png', label: 'Content Creator Application' },
+        ],
+      };
+
+      const panelData = buildTicketPanel(images);
 
       const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
-        files: [{ data: imageBuffer, name: 'support_card.png', contentType: 'image/png' }],
+        files: imageFiles.map(f => ({
+          data: readFileSync(join(assetDir, f)),
+          name: f,
+          contentType: 'image/png',
+        })),
         body: {
           flags: 32768,
           components: panelData.components,

@@ -1,8 +1,8 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
 
-export const buildTicketPanel = (imageUrl) => {
+export const buildTicketPanel = (images) => {
   const container = new ContainerBuilder()
-    .setAccentColor(0x5865F2)
+    .setAccentColor(0x8B0000)
     .addTextDisplayComponents(new TextDisplayBuilder().setContent([
       '## Battlegroundians Ticket Support',
       '',
@@ -10,19 +10,18 @@ export const buildTicketPanel = (imageUrl) => {
     ].join('\n')))
     .addSeparatorComponents(new SeparatorBuilder().setDivider());
 
-  if (imageUrl) {
-    container.addMediaGalleryComponents(
-      new MediaGalleryBuilder().addItems(
-        new MediaGalleryItemBuilder().setURL(imageUrl),
-      ),
-    );
+  if (images?.ticketTypes?.length) {
+    const gallery = new MediaGalleryBuilder();
+    for (const t of images.ticketTypes) {
+      gallery.addItems(new MediaGalleryItemBuilder().setURL(t.url).setDescription(t.label));
+    }
+    container.addMediaGalleryComponents(gallery);
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
-    container.addTextDisplayComponents(
-      new TextDisplayBuilder().setContent([
-        '-# *Battlegroundians support team*',
-      ].join('\n')),
-    );
   }
+
+  container.addTextDisplayComponents(
+    new TextDisplayBuilder().setContent('-# *Battlegroundians support team*'),
+  );
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
@@ -30,7 +29,7 @@ export const buildTicketPanel = (imageUrl) => {
     .addOptions([
       { label: 'Support', value: 'support', description: 'Get help with server issues' },
       { label: 'Player Report', value: 'player_report', description: 'Report a player for rule violations' },
-      { label: 'Staff Application', value: 'staff_app', description: 'Apply for a staff position' },
+      { label: 'Content Creator Application', value: 'content_creator', description: 'Apply for content creator' },
     ]);
 
   container.addActionRowComponents(
