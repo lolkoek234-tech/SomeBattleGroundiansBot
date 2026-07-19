@@ -1,6 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, FileBuilder, MessageFlags } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, MessageFlags } from 'discord.js';
 
-export const buildTicketPanel = (imageUrl) => {
+export const buildTicketPanel = (_imageUrl) => {
   const separator = new SeparatorBuilder().setDivider();
 
   const welcomeText = new TextDisplayBuilder().setContent([
@@ -13,8 +13,6 @@ export const buildTicketPanel = (imageUrl) => {
     'Bumping/pinging will not speed up response',
     'False reports may result in punishment',
   ].join('\n'));
-
-  const image = new FileBuilder().setURL(imageUrl);
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
@@ -30,8 +28,6 @@ export const buildTicketPanel = (imageUrl) => {
     components: [
       new ActionRowBuilder().addComponents(separator),
       new ActionRowBuilder().addComponents(welcomeText),
-      new ActionRowBuilder().addComponents(separator),
-      new ActionRowBuilder().addComponents(image),
       new ActionRowBuilder().addComponents(separator),
       new ActionRowBuilder().addComponents(dropdown),
     ],

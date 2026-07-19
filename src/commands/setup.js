@@ -72,13 +72,9 @@ export default {
         return interaction.editReply('❌ Setup failed: `assets/support_card.png` not found. Please add the image file.');
       }
 
-      const imageUrl = 'attachment://support_card.png';
-      const panelData = buildTicketPanel(imageUrl);
+      const panelData = buildTicketPanel('');
 
-      const panelMsg = await interaction.channel.send({
-        ...panelData,
-        files: [assetPath],
-      });
+      const panelMsg = await interaction.channel.send(panelData);
 
       configManager.set(interaction.guild.id, {
         staffRoles,
@@ -92,7 +88,7 @@ export default {
       await interaction.editReply('✅ Ticket system is set up!');
     } catch (err) {
       console.error('Setup failed:', err);
-      await interaction.editReply('❌ Setup failed. Make sure the bot has proper permissions and try again.');
+      await interaction.editReply(`❌ Setup failed: ${err.message}`);
     }
   }
 };
