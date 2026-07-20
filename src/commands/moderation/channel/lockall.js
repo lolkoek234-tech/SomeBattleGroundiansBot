@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,9 +22,9 @@ export default {
       }
       const record = caseManager.create(interaction.guild.id, { type: 'lock', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `${reason} (${count} channels)` });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply(`🔒 Locked ${count} channels`);
+      await interaction.editReply({ embeds: [modEmbed({ desc: `🔒 Locked ${count} channels` })] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

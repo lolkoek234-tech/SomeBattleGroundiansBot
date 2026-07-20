@@ -2,6 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { warnManager } from '../../../utils/warnManager.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { successEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,6 +18,6 @@ export default {
     warnManager.clear(interaction.guild.id, user.id);
     const record = caseManager.create(interaction.guild.id, { type: 'note', userId: user.id, moderatorId: interaction.user.id, reason: 'All warnings cleared' });
     await sendModLog(interaction.guild, record);
-    await interaction.editReply(`✅ Cleared all warnings for ${user.tag}`);
+    await interaction.editReply({ embeds: [successEmbed(`Cleared all warnings for ${user.tag}`)] });
   },
 };

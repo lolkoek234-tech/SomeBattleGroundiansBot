@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modManager } from '../../../utils/modManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -16,13 +17,13 @@ export default {
     const nickname = interaction.options.getString('nickname', true);
     const reason = interaction.options.getString('reason') || 'Nickname changed';
     const member = interaction.guild.members.cache.get(user.id);
-    if (!member) return interaction.editReply('❌ User not in server.');
+    if (!member) return interaction.editReply({ embeds: [errorEmbed('User not in server.')] });
 
     try {
       const record = await modManager.execute(interaction.guild, 'forcenick', user.id, interaction.user.id, reason, { nickname });
-      await interaction.editReply(`✅ Changed ${user.tag}'s nickname | Case #${record.id}`);
+      await interaction.editReply({ embeds: [successEmbed(`Changed ${user.tag}'s nickname | Case #${record.id}`)] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

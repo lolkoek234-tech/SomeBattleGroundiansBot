@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modConfigManager } from '../../../utils/modConfigManager.js';
+import { successEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -23,6 +24,6 @@ export default {
     };
 
     modConfigManager.set(interaction.guild.id, { maxWarns, escalationAction: action, escalationDuration: ms(durationStr) });
-    await interaction.editReply(`✅ Warn config set: ${maxWarns} warns → ${action}`);
+    await interaction.editReply({ embeds: [successEmbed(`Warn config set: ${maxWarns} warns → ${action}`)] });
   },
 };

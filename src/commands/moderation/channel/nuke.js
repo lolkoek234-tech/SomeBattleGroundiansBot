@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -29,9 +30,9 @@ export default {
       });
       const record = caseManager.create(interaction.guild.id, { type: 'nuke', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: 'Channel nuked' });
       await sendModLog(interaction.guild, record);
-      await newChannel.send(`💥 Channel nuked by ${interaction.user}`);
+      await newChannel.send({ embeds: [modEmbed({ desc: `💥 Channel nuked by ${interaction.user}` })] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

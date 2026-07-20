@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,7 +12,7 @@ export default {
 
     try {
       const bans = await interaction.guild.bans.fetch();
-      if (!bans.size) return interaction.editReply('No bans.');
+      if (!bans.size) return interaction.editReply({ embeds: [errorEmbed('No bans.')] });
 
       const pages = [];
       let page = '';
@@ -23,16 +24,14 @@ export default {
       }
       if (page) pages.push(page);
 
-      const embed = new EmbedBuilder()
-        .setColor(Colors.Red)
-        .setTitle(`Ban List — ${bans.size} total`)
-        .setDescription(pages[0])
-        .setFooter({ text: `Page 1/${pages.length}` })
-        .setTimestamp();
+      const embed = modEmbed({
+        title: `Ban List — ${bans.size} total`,
+        desc: pages[0],
+      });
 
       await interaction.editReply({ embeds: [embed] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

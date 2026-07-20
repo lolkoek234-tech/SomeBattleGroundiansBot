@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ export default {
       const u = interaction.options.getUser(`user${i}`);
       if (u) users.push(u);
     }
-    if (!users.length) return interaction.editReply('❌ Specify at least one user.');
+    if (!users.length) return interaction.editReply({ embeds: [errorEmbed('Specify at least one user.')] });
 
     let count = 0;
     for (const user of users) {
@@ -40,6 +41,6 @@ export default {
 
     const record = caseManager.create(interaction.guild.id, { type: 'forcenick', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `Mass role ${action}: ${role.name} on ${count} users` });
     await sendModLog(interaction.guild, record);
-    await interaction.editReply(`✅ ${action === 'add' ? 'Added' : 'Removed'} ${role.name} ${action === 'add' ? 'to' : 'from'} ${count} user(s)`);
+    await interaction.editReply({ embeds: [successEmbed(`${action === 'add' ? 'Added' : 'Removed'} ${role.name} ${action === 'add' ? 'to' : 'from'} ${count} user(s)`)] });
   },
 };

@@ -1,6 +1,7 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { warnManager } from '../../../utils/warnManager.js';
+import { modEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -15,16 +16,15 @@ export default {
     const cases = caseManager.list(interaction.guild.id, { userId: user.id });
     const warns = warnManager.list(interaction.guild.id, user.id);
 
-    const embed = new EmbedBuilder()
-      .setColor(Colors.Blurple)
-      .setTitle(`History — ${user.tag}`)
-      .setThumbnail(user.displayAvatarURL())
-      .addFields(
+    const embed = modEmbed({
+      title: `History — ${user.tag}`,
+      thumb: user.displayAvatarURL(),
+      fields: [
         { name: 'Total Cases', value: `${cases.length}`, inline: true },
         { name: 'Warnings', value: `${warns.length}`, inline: true },
         { name: 'Active Punishments', value: `${cases.filter(c => c.active).length}`, inline: true },
-      )
-      .setTimestamp();
+      ],
+    });
 
     if (cases.length > 0) {
       embed.addFields({ name: 'Recent Actions', value: cases.slice(0, 5).map(c =>

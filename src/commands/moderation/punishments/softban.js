@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modManager } from '../../../utils/modManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,13 +15,13 @@ export default {
     const user = interaction.options.getUser('user', true);
     const reason = interaction.options.getString('reason') || 'No reason provided';
     const member = interaction.guild.members.cache.get(user.id);
-    if (!member) return interaction.editReply('❌ User not in server.');
+    if (!member) return interaction.editReply({ embeds: [errorEmbed('User not in server.')] });
 
     try {
       const record = await modManager.execute(interaction.guild, 'softban', user.id, interaction.user.id, reason);
-      await interaction.editReply(`✅ Softbanned ${user.tag} (messages cleared) | Case #${record.id}`);
+      await interaction.editReply({ embeds: [successEmbed(`Softbanned ${user.tag} (messages cleared) | Case #${record.id}`)] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modManager } from '../../../utils/modManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -15,14 +16,14 @@ export default {
     const reason = interaction.options.getString('reason') || 'No reason provided';
 
     if (!interaction.guild.members.cache.get(user.id)) {
-      return interaction.editReply('❌ User not in server.');
+      return interaction.editReply({ embeds: [errorEmbed('User not in server.')] });
     }
 
     try {
       const record = await modManager.execute(interaction.guild, 'kick', user.id, interaction.user.id, reason);
-      await interaction.editReply(`✅ Kicked ${user.tag} | Case #${record.id}`);
+      await interaction.editReply({ embeds: [successEmbed(`Kicked ${user.tag} | Case #${record.id}`)] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

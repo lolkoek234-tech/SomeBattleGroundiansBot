@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { modEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,6 +18,6 @@ export default {
 
     const record = caseManager.create(interaction.guild.id, { type: 'note', userId: user.id, moderatorId: interaction.user.id, reason: content });
     await sendModLog(interaction.guild, record);
-    await interaction.editReply(`📝 Note added to ${user.tag} | Case #${record.id}`);
+    await interaction.editReply({ embeds: [modEmbed({ desc: `📝 Note added to ${user.tag} | Case #${record.id}` })] });
   },
 };

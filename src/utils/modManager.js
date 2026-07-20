@@ -1,3 +1,4 @@
+import { EmbedBuilder } from 'discord.js';
 import { caseManager } from './caseManager.js';
 import { sendModLog } from './modLog.js';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
@@ -14,6 +15,25 @@ const readWarns = (guildId) => {
 const writeWarns = (guildId, warns) => writeFileSync(warnPath(guildId), JSON.stringify(warns, null, 2));
 const readWarnConfig = (guildId) => {
   try { return JSON.parse(readFileSync(join(DIR, `${guildId}.json`), 'utf8')); } catch { return {}; }
+};
+
+const DM_ACTIONS = ['ban', 'tempban', 'kick', 'timeout', 'warn', 'softban'];
+
+const sendDm = async (guild, userId, action, reason, caseId) => {
+  try {
+    const user = await guild.client.users.fetch(userId).catch(() => null);
+    if (!user) return false;
+    const embed = new EmbedBuilder()
+      .setColor(0x8B0000)
+      .setTitle(`You were ${action}ed in ${guild.name}`)
+      .setDescription(`**Reason:** ${reason || 'No reason provided'}`)
+      .addFields({ name: 'Case ID', value: `#${caseId}`, inline: true })
+      .setTimestamp();
+    await user.send({ embeds: [embed] });
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 export const modManager = {
@@ -83,7 +103,13 @@ export const modManager = {
         throw new Error(`Unknown action: ${action}`);
     }
 
-    if (caseRecord) await sendModLog(guild, caseRecord);
+    if (caseRecord) {
+      if (DM_ACTIONS.includes(action)) {
+        const dmSuccess = await sendDm(guild, userId, action, reason, caseRecord.id);
+        if (!dmSuccess) caseRecord.dm_success = false;
+      }
+      await sendModLog(guild, caseRecord);
+    }
     return caseRecord;
   },
 };

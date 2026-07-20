@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -15,9 +16,9 @@ export default {
     const reason = interaction.options.getString('reason') || 'Appeal denied';
 
     const record = caseManager.get(interaction.guild.id, id);
-    if (!record) return interaction.editReply('❌ Case not found.');
+    if (!record) return interaction.editReply({ embeds: [errorEmbed('Case not found.')] });
 
     caseManager.update(interaction.guild.id, id, { active: false });
-    await interaction.editReply(`✅ Appeal denied for Case #${id}: ${reason}`);
+    await interaction.editReply({ embeds: [successEmbed(`Appeal denied for Case #${id}: ${reason}`)] });
   },
 };

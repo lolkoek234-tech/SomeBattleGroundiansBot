@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modManager } from '../../../utils/modManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -19,14 +20,14 @@ export default {
     const evidence = interaction.options.getString('evidence');
 
     if (interaction.guild.members.cache.get(user.id)?.roles?.highest?.position >= interaction.member.roles.highest.position) {
-      return interaction.editReply('❌ You cannot ban this user (same or higher role).');
+      return interaction.editReply({ embeds: [errorEmbed('You cannot ban this user (same or higher role).')] });
     }
 
     try {
       const record = await modManager.execute(interaction.guild, 'ban', user.id, interaction.user.id, reason, { deleteDays, evidence });
-      await interaction.editReply(`✅ Banned ${user.tag} | Case #${record.id}`);
+      await interaction.editReply({ embeds: [successEmbed(`Banned ${user.tag} | Case #${record.id}`)] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

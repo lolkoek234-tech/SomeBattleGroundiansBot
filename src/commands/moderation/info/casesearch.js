@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -13,16 +14,14 @@ export default {
     const query = interaction.options.getString('query', true);
     const results = caseManager.search(interaction.guild.id, query);
 
-    if (!results.length) return interaction.editReply('No matching cases found.');
+    if (!results.length) return interaction.editReply({ embeds: [errorEmbed('No matching cases found.')] });
 
-    const embed = new EmbedBuilder()
-      .setColor(Colors.Blurple)
-      .setTitle(`Search Results — "${query}"`)
-      .setDescription(results.slice(0, 15).map(c =>
+    const embed = modEmbed({
+      title: `Search Results — "${query}"`,
+      desc: results.slice(0, 15).map(c =>
         `\`#${c.id}\` **${c.type.toUpperCase()}** — <@${c.userId}> — ${c.reason?.slice(0, 50) || 'No reason'}`
-      ).join('\n'))
-      .setFooter({ text: `${results.length} result(s)` })
-      .setTimestamp();
+      ).join('\n'),
+    });
 
     await interaction.editReply({ embeds: [embed] });
   },

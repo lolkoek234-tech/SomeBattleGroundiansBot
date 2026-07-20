@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
 import { sendModLog } from '../../../utils/modLog.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -18,10 +19,10 @@ export default {
       await interaction.channel.bulkDelete(msgs);
       const record = caseManager.create(interaction.guild.id, { type: 'purge', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `Purged ${msgs.size} messages` });
       await sendModLog(interaction.guild, record);
-      const reply = await interaction.channel.send(`🧹 Deleted ${msgs.size} messages`);
+      const reply = await interaction.channel.send({ embeds: [modEmbed({ desc: `🧹 Deleted ${msgs.size} messages` })] });
       setTimeout(() => reply.delete().catch(() => {}), 3000);
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

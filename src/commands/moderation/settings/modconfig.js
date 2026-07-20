@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modConfigManager } from '../../../utils/modConfigManager.js';
+import { successEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -13,10 +14,10 @@ export default {
     const sub = interaction.options.getSubcommand();
     if (sub === 'logchannel') {
       modConfigManager.set(interaction.guild.id, { logChannel: interaction.options.getChannel('channel', true).id });
-      await interaction.reply({ content: '✅ Log channel set', flags: 64 });
+      await interaction.reply({ embeds: [successEmbed('Log channel set')], flags: 64 });
     } else if (sub === 'muterole') {
       modConfigManager.set(interaction.guild.id, { muteRole: interaction.options.getRole('role', true).id });
-      await interaction.reply({ content: '✅ Mute role set', flags: 64 });
+      await interaction.reply({ embeds: [successEmbed('Mute role set')], flags: 64 });
     }
   },
 };

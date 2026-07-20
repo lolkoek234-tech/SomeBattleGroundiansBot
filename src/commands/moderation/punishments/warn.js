@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { modManager } from '../../../utils/modManager.js';
+import { successEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -18,9 +19,9 @@ export default {
 
     try {
       const record = await modManager.execute(interaction.guild, 'warn', user.id, interaction.user.id, reason, { evidence });
-      await interaction.editReply(`✅ Warned ${user.tag} | Case #${record.id}`);
+      await interaction.editReply({ embeds: [successEmbed(`Warned ${user.tag} | Case #${record.id}`)] });
     } catch (err) {
-      await interaction.editReply(`❌ Failed: ${err.message}`);
+      await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }
   },
 };

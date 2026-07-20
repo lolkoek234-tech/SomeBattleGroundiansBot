@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { caseManager } from '../../../utils/caseManager.js';
+import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,15 +15,14 @@ export default {
     const filter = user ? { userId: user.id } : {};
     const cases = caseManager.list(interaction.guild.id, filter).slice(0, 10);
 
-    if (!cases.length) return interaction.editReply('No cases found.');
+    if (!cases.length) return interaction.editReply({ embeds: [errorEmbed('No cases found.')] });
 
-    const embed = new EmbedBuilder()
-      .setColor(Colors.Blurple)
-      .setTitle(`Mod Logs${user ? ` — ${user.tag}` : ''}`)
-      .setDescription(cases.map(c =>
+    const embed = modEmbed({
+      title: `Mod Logs${user ? ` — ${user.tag}` : ''}`,
+      desc: cases.map(c =>
         `\`#${c.id}\` **${c.type.toUpperCase()}** — <@${c.userId}> — ${c.reason?.slice(0, 50) || 'No reason'} — <t:${Math.floor(new Date(c.timestamp).getTime() / 1000)}:R>`
-      ).join('\n'))
-      .setTimestamp();
+      ).join('\n'),
+    });
 
     await interaction.editReply({ embeds: [embed] });
   },
