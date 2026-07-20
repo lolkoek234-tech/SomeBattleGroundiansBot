@@ -19,13 +19,14 @@ export const buildTicketPanel = (images) => {
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
   }
 
+  const emojis = images?.emojis ?? {};
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
     .setPlaceholder('Select a ticket type...')
     .addOptions([
-      { label: 'Support', value: 'support', emoji: '🛠️', description: 'Get help with server issues' },
-      { label: 'Player Report', value: 'player_report', emoji: '📝', description: 'Report a player for rule violations' },
-      { label: 'Content Creator Application', value: 'content_creator', emoji: '🎥', description: 'Apply for content creator' },
+      { label: 'Support', value: 'support', emoji: emojis.support, description: 'Get help with server issues' },
+      { label: 'Player Report', value: 'player_report', emoji: emojis.player_report, description: 'Report a player for rule violations' },
+      { label: 'Content Creator Application', value: 'content_creator', emoji: emojis.content_creator, description: 'Apply for content creator' },
     ]);
 
   container.addActionRowComponents(

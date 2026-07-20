@@ -75,12 +75,22 @@ export default {
         }
       }
 
+      const resolveEmoji = (name) => {
+        const e = interaction.guild.emojis.cache.find(emoji => emoji.name === name);
+        return e ? { name: e.name, id: e.id, animated: e.animated ?? false } : undefined;
+      };
+
       const images = {
         banner: 'attachment://support_card.png',
         ticketTypes: {
           support: 'attachment://general_support.png',
           player_report: 'attachment://report.png',
           content_creator: 'attachment://content_creator.png',
+        },
+        emojis: {
+          support: resolveEmoji('General_Support'),
+          player_report: resolveEmoji('Report'),
+          content_creator: resolveEmoji('ContentCreator'),
         },
       };
 
