@@ -67,7 +67,7 @@ export default {
     }
 
     if (!panelMsgId) {
-      const assetDir = join(__dirname, '..', '..', '..', 'assets');
+      const assetDir = join(__dirname, '..', '..', '..', '..', 'assets');
       const bannerFile = 'support_card.png';
       const files = [];
       if (existsSync(join(assetDir, bannerFile))) {
