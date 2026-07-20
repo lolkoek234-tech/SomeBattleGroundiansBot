@@ -73,7 +73,7 @@ export default {
 
     if (cmdName) {
       const cmd = interaction.client.commands.get(cmdName.toLowerCase());
-      if (!cmd) return interaction.editReply({ embeds: [modEmbed({ desc: `❌ Command \`${cmdName}\` not found.` })] });
+      if (!cmd) return interaction.editReply({ embeds: [modEmbed({ desc: `Command \`${cmdName}\` not found.` })] });
 
       const embed = modEmbed({
         title: `Command: /${cmd.data.name}`,
