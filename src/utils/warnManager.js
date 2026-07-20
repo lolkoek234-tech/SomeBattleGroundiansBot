@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import { dataPath } from './dataPath.js';
 
-const DIR = join(process.cwd(), 'data', 'moderation', 'warnings');
+const DIR = dataPath('moderation', 'warnings');
 const ensure = () => { if (!existsSync(DIR)) mkdirSync(DIR, { recursive: true }); };
 const path = (guildId) => { ensure(); return join(DIR, `${guildId}.json`); };
 

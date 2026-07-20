@@ -1,11 +1,11 @@
 import { EmbedBuilder } from 'discord.js';
 import { readFileSync } from 'fs';
-import { join } from 'path';
 import { modEmbed } from './modEmbed.js';
+import { dataPath } from './dataPath.js';
 
 const readConfig = (guildId) => {
   try {
-    return JSON.parse(readFileSync(join(process.cwd(), 'data', 'moderation', 'configs', `${guildId}.json`), 'utf8'));
+    return JSON.parse(readFileSync(dataPath('moderation', 'configs', `${guildId}.json`), 'utf8'));
   } catch { return {}; }
 };
 

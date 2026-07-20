@@ -3,9 +3,10 @@ import { caseManager } from './caseManager.js';
 import { sendModLog } from './modLog.js';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import { dataPath } from './dataPath.js';
 
-const WARN_DIR = join(process.cwd(), 'data', 'moderation', 'warnings');
-const DIR = join(process.cwd(), 'data', 'moderation', 'configs');
+const WARN_DIR = dataPath('moderation', 'warnings');
+const DIR = dataPath('moderation', 'configs');
 
 const ensureWarnDir = () => { if (!existsSync(WARN_DIR)) mkdirSync(WARN_DIR, { recursive: true }); };
 const warnPath = (guildId) => { ensureWarnDir(); return join(WARN_DIR, `${guildId}.json`); };
