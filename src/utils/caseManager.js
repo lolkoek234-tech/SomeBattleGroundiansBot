@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
 import { dataPath } from './dataPath.js';
 
 const CASES_DIR = dataPath('moderation', 'cases');
