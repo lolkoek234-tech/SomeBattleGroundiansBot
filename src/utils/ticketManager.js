@@ -1,4 +1,4 @@
-import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors, SeparatorBuilder, TextDisplayBuilder, ActionRowBuilder, Routes } from 'discord.js';
+import { PermissionFlagsBits, ChannelType, EmbedBuilder, Colors, Routes } from 'discord.js';
 import { configManager } from '../configManager.js';
 import { buildTicketOpener } from './embedBuilder.js';
 import { generateTranscript } from './transcript.js';
@@ -13,16 +13,18 @@ const isStaff = (member, config) => {
   return config.staffRoles?.some(roleId => member.roles?.cache?.has(roleId));
 };
 
+const isTicketChannel = (name) => /^ticket-/.test(name);
+
 export const ticketManager = {
   async create(guild, member, type) {
     const config = configManager.get(guild.id);
     if (!config) throw new Error('Server not configured. Run /setup first.');
 
     const ticketNumber = (config.ticketCounter || 0) + 1;
-    await configManager.update(guild.id, { ticketCounter: ticketNumber });
+    configManager.update(guild.id, { ticketCounter: ticketNumber });
 
-    const category = guild.channels.cache.get(config.categoryId);
-    if (!category) throw new Error('Tickets category not found.');
+    const category = await guild.channels.fetch(config.categoryId).catch(() => null);
+    if (!category) throw new Error('Tickets category not found. It may have been deleted.');
 
     const staffRoles = config.staffRoles || [];
     const permissionOverwrites = [
@@ -56,36 +58,33 @@ export const ticketManager = {
 
   async claim(interaction) {
     const config = configManager.get(interaction.guild.id);
-    if (!config) throw new Error('Server not configured.');
+    if (!config) throw new Error('Server not configured. Run /setup first.');
     if (!isStaff(interaction.member, config)) throw new Error('Only staff can claim tickets.');
-
-    if (!interaction.channel.name.match(/^ticket-\d+$/)) throw new Error('This is not a ticket channel.');
+    if (!isTicketChannel(interaction.channel.name)) throw new Error('This is not a ticket channel.');
 
     await interaction.deferUpdate();
 
     const msg = interaction.message;
-    const components = [
-      ...msg.components.slice(0, -1),
-      { type: 1, components: [{ type: 14, divider: true }] },
-      { type: 10, content: `## Ticket claimed by ${interaction.member}` },
-      msg.components[msg.components.length - 1],
-    ];
+    const opener = buildTicketOpener(
+      interaction.channel.topic?.match(/\| (.+) \|/)?.[1] || 'Ticket',
+      parseInt(interaction.channel.topic?.match(/#(\d+)/)?.[1]) || 0,
+      interaction.member.displayName,
+    );
 
     await interaction.client.rest.patch(
       Routes.channelMessage(interaction.channelId, msg.id),
-      { body: { components } },
+      { body: { components: opener.components } },
     );
   },
 
   async close(interaction) {
     const config = configManager.get(interaction.guild.id);
-    if (!config) throw new Error('Server not configured.');
+    if (!config) throw new Error('Server not configured. Run /setup first.');
     if (!isStaff(interaction.member, config)) throw new Error('Only staff can close tickets.');
+    if (!isTicketChannel(interaction.channel.name)) throw new Error('This is not a ticket channel.');
 
-    if (!interaction.channel.name.match(/^ticket-\d+$/)) throw new Error('This is not a ticket channel.');
-
-    const logChannel = interaction.guild.channels.cache.get(config.logChannelId);
-    if (!logChannel) throw new Error('Log channel not found.');
+    const logChannel = await interaction.guild.channels.fetch(config.logChannelId).catch(() => null);
+    if (!logChannel) throw new Error('Log channel not found. It may have been deleted.');
 
     await interaction.deferUpdate();
 

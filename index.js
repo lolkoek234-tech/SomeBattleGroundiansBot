@@ -6,7 +6,7 @@ import { handleClaimButton } from './src/interactions/claimButton.js';
 import { handleCloseButton } from './src/interactions/closeButton.js';
 import { loadModCommands } from './src/commands/registerModCommands.js';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 

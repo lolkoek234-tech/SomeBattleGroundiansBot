@@ -42,21 +42,30 @@ export const buildTicketPanel = (images) => {
   };
 };
 
-export const buildTicketOpener = (type, ticketNumber) => {
+export const buildTicketOpener = (type, ticketNumber, claimedBy) => {
+  const lines = [`## Ticket #${ticketNumber} — ${type}`];
+  lines.push('A staff member will be with you shortly. Please describe your issue.');
+
   const container = new ContainerBuilder()
     .setAccentColor(0x8B0000)
     .addTextDisplayComponents(
-      new TextDisplayBuilder().setContent(
-        `## Ticket #${ticketNumber} — ${type}\nA staff member will be with you shortly. Please describe your issue.`,
-      ),
+      new TextDisplayBuilder().setContent(lines.join('\n')),
     )
-    .addSeparatorComponents(new SeparatorBuilder().setDivider())
-    .addActionRowComponents(
-      new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('claim_ticket').setLabel('Claim').setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder().setCustomId('close_ticket').setLabel('Close').setStyle(ButtonStyle.Secondary),
-      ),
+    .addSeparatorComponents(new SeparatorBuilder().setDivider());
+
+  if (claimedBy) {
+    container.addTextDisplayComponents(
+      new TextDisplayBuilder().setContent(`## Ticket claimed by ${claimedBy}`),
     );
+    container.addSeparatorComponents(new SeparatorBuilder().setDivider());
+  }
+
+  container.addActionRowComponents(
+    new ActionRowBuilder().addComponents(
+      new ButtonBuilder().setCustomId('claim_ticket').setLabel('Claim').setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder().setCustomId('close_ticket').setLabel('Close').setStyle(ButtonStyle.Secondary),
+    ),
+  );
 
   return {
     flags: MessageFlags.IsComponentsV2,
