@@ -22,7 +22,7 @@ export const handleTicketDropdown = async (interaction) => {
     return true;
   }
 
-  await interaction.deferReply();
+  await interaction.deferReply({ ephemeral: true });
 
   try {
     const channel = await ticketManager.create(interaction.guild, interaction.member, type);
