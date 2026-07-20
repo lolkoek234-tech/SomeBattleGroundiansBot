@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
-import { warnManager } from '../../utils/warnManager.js';
-import { caseManager } from '../../utils/caseManager.js';
-import { sendModLog } from '../../utils/modLog.js';
+import { warnManager } from '../../../utils/warnManager.js';
+import { caseManager } from '../../../utils/caseManager.js';
+import { sendModLog } from '../../../utils/modLog.js';
 
 export default {
   data: new SlashCommandBuilder()

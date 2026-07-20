@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder, Colors } from 'discord.js';
-import { caseManager } from '../../utils/caseManager.js';
-import { chartGenerator } from '../../utils/chartGenerator.js';
+import { caseManager } from '../../../utils/caseManager.js';
+import { chartGenerator } from '../../../utils/chartGenerator.js';
 
 export default {
   data: new SlashCommandBuilder()

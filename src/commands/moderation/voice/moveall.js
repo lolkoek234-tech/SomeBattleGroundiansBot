@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChannelType } from 'discord.js';
-import { caseManager } from '../../utils/caseManager.js';
-import { sendModLog } from '../../utils/modLog.js';
+import { caseManager } from '../../../utils/caseManager.js';
+import { sendModLog } from '../../../utils/modLog.js';
 
 export default {
   data: new SlashCommandBuilder()

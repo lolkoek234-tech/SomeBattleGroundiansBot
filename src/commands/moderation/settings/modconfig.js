@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
-import { modConfigManager } from '../../utils/modConfigManager.js';
+import { modConfigManager } from '../../../utils/modConfigManager.js';
 
 export default {
   data: new SlashCommandBuilder()

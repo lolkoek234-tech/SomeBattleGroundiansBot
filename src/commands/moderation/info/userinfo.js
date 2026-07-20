@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from 'discord.js';
-import { caseManager } from '../../utils/caseManager.js';
-import { warnManager } from '../../utils/warnManager.js';
+import { caseManager } from '../../../utils/caseManager.js';
+import { warnManager } from '../../../utils/warnManager.js';
 
 export default {
   data: new SlashCommandBuilder()

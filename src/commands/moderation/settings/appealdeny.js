@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
-import { caseManager } from '../../utils/caseManager.js';
+import { caseManager } from '../../../utils/caseManager.js';
 
 export default {
   data: new SlashCommandBuilder()
