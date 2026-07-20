@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('removetimeout')
     .setDescription('Remove timeout from a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to remove timeout from').setRequired(true)),
 
   async execute(interaction) {

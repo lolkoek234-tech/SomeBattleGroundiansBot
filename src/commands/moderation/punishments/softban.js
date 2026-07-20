@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('softban')
     .setDescription('Ban then immediately unban to clear messages')
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to softban').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 

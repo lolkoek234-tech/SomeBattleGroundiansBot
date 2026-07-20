@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('warnconfig')
     .setDescription('Configure auto-escalation for warnings')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addIntegerOption(o => o.setName('max_warns').setDescription('Max warnings before escalation').setRequired(true).setMinValue(1).setMaxValue(50))
     .addStringOption(o => o.setName('action').setDescription('Action to take').setRequired(true).addChoices({ name: 'Timeout', value: 'timeout' }, { name: 'Kick', value: 'kick' }))
     .addStringOption(o => o.setName('duration').setDescription('Duration for timeout (e.g. 1h, 1d)')),

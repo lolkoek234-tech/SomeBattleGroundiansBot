@@ -4,8 +4,7 @@ import { modEmbed } from '../../../utils/modEmbed.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('serverinfo')
-    .setDescription('Get detailed server information')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+    .setDescription('Get detailed server information'),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: 64 });

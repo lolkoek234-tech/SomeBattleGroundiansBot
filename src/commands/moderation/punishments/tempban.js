@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('tempban')
     .setDescription('Temporarily ban a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to ban').setRequired(true))
     .addStringOption(o => o.setName('duration').setDescription('Duration (e.g. 1h, 2d, 7d)').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason'))

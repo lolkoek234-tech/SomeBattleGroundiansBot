@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('voicemute')
     .setDescription('Server voice mute a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to mute').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 

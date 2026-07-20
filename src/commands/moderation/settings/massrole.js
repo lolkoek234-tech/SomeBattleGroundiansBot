@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('massrole')
     .setDescription('Add or remove a role from multiple users')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
     .addRoleOption(o => o.setName('role').setDescription('The role').setRequired(true))
     .addStringOption(o => o.setName('action').setDescription('Add or remove').setRequired(true).addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' }))
     .addUserOption(o => o.setName('user1').setDescription('User 1'))

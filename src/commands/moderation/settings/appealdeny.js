@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('appealdeny')
     .setDescription('Deny an appeal for a case')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addIntegerOption(o => o.setName('case_id').setDescription('Case ID').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason for denial')),
 

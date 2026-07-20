@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('moveall')
     .setDescription('Move all members from one voice channel to another')
-    .setDefaultMemberPermissions(PermissionFlagsBits.MoveMembers)
     .addChannelOption(o => o.setName('source').setDescription('Source voice channel').setRequired(true).addChannelTypes(ChannelType.GuildVoice))
     .addChannelOption(o => o.setName('target').setDescription('Target voice channel').setRequired(true).addChannelTypes(ChannelType.GuildVoice)),
 

@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('note')
     .setDescription('Add an internal note to a user\'s record')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true))
     .addStringOption(o => o.setName('content').setDescription('Note content').setRequired(true)),
 

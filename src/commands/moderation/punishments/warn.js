@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('warn')
     .setDescription('Warn a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to warn').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason').setRequired(true))
     .addStringOption(o => o.setName('evidence').setDescription('Evidence URL')),

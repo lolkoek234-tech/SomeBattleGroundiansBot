@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('modconfig')
     .setDescription('Configure moderation settings')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addSubcommand(sc => sc.setName('logchannel').setDescription('Set moderation log channel').addChannelOption(o => o.setName('channel').setDescription('Log channel').setRequired(true)))
     .addSubcommand(sc => sc.setName('muterole').setDescription('Set mute role').addRoleOption(o => o.setName('role').setDescription('Mute role').setRequired(true))),
 

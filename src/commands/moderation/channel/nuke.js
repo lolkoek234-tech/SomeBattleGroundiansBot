@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('nuke')
     .setDescription('Clone and delete a channel (nuke it)')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(o => o.setName('channel').setDescription('Channel to nuke')),
 
   async execute(interaction) {

@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('modlogs')
     .setDescription('View recent moderation cases')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('Filter by user')),
 
   async execute(interaction) {

@@ -6,8 +6,7 @@ import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('slowmodeoff')
-    .setDescription('Disable slowmode in the current channel')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
+    .setDescription('Disable slowmode in the current channel'),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: 64 });

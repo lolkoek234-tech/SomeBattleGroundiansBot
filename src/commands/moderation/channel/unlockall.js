@@ -6,8 +6,7 @@ import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('unlockall')
-    .setDescription('Unlock all text channels')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
+    .setDescription('Unlock all text channels'),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: 64 });

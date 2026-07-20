@@ -4,8 +4,7 @@ import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('banlist')
-    .setDescription('List all banned users')
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+    .setDescription('List all banned users'),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: 64 });

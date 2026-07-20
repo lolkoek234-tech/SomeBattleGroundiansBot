@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('voicekick')
     .setDescription('Disconnect a member from voice')
-    .setDefaultMemberPermissions(PermissionFlagsBits.MoveMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to disconnect').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 

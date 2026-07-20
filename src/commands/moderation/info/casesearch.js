@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('casesearch')
     .setDescription('Search moderation cases')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addStringOption(o => o.setName('query').setDescription('Search by user ID, moderator ID, or reason').setRequired(true)),
 
   async execute(interaction) {

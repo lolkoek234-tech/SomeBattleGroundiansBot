@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('forcenick')
     .setDescription('Force change a member\'s nickname')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('Member').setRequired(true))
     .addStringOption(o => o.setName('nickname').setDescription('New nickname').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),

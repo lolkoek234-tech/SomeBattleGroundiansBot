@@ -6,8 +6,7 @@ import { modEmbed, errorEmbed } from '../../../utils/modEmbed.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('serverstats')
-    .setDescription('Generate server moderation statistics chart')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+    .setDescription('Generate server moderation statistics chart'),
 
   async execute(interaction) {
     await interaction.deferReply({ flags: 64 });

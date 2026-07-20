@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('purge')
     .setDescription('Bulk delete messages')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addIntegerOption(o => o.setName('amount').setDescription('Number of messages to delete').setRequired(true).setMinValue(1).setMaxValue(100)),
 
   async execute(interaction) {

@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('slowmode')
     .setDescription('Set slowmode in a channel')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addIntegerOption(o => o.setName('seconds').setDescription('Slowmode in seconds').setRequired(true).setMinValue(0).setMaxValue(21600)),
 
   async execute(interaction) {

@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('case')
     .setDescription('View a moderation case')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addIntegerOption(o => o.setName('case_id').setDescription('Case ID').setRequired(true)),
 
   async execute(interaction) {

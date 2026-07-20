@@ -8,7 +8,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('clearwarns')
     .setDescription('Clear all warnings for a user')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true)),
 
   async execute(interaction) {

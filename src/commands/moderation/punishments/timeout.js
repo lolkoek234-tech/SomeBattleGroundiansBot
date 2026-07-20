@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('timeout')
     .setDescription('Timeout a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to timeout').setRequired(true))
     .addStringOption(o => o.setName('duration').setDescription('Duration (e.g. 10m, 1h, 7d)').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),

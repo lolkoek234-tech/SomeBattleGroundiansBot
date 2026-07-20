@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('lockall')
     .setDescription('Lock all text channels')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 
   async execute(interaction) {

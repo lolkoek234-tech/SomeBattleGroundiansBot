@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('lock')
     .setDescription('Lock a channel')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(o => o.setName('channel').setDescription('Channel to lock').addChannelTypes(ChannelType.GuildText))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 

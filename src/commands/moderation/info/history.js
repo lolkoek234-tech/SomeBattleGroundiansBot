@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('history')
     .setDescription('View full moderation history for a user')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true)),
 
   async execute(interaction) {

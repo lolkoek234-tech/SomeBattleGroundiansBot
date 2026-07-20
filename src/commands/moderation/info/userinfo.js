@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('userinfo')
     .setDescription('Get detailed user information')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true)),
 
   async execute(interaction) {

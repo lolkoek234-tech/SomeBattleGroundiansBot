@@ -6,7 +6,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Permanently ban a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to ban').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason for the ban'))
     .addIntegerOption(o => o.setName('delete_days').setDescription('Days of messages to delete').setMinValue(0).setMaxValue(7))

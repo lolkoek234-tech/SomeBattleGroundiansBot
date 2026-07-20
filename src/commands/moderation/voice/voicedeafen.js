@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('voicedeafen')
     .setDescription('Server voice deafen a member')
-    .setDefaultMemberPermissions(PermissionFlagsBits.DeafenMembers)
     .addUserOption(o => o.setName('user').setDescription('Member to deafen').setRequired(true))
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 

@@ -8,7 +8,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('removewarn')
     .setDescription('Remove a specific warning from a user')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true))
     .addIntegerOption(o => o.setName('index').setDescription('Warning number (use /warnings to find it)').setRequired(true).setMinValue(1)),
 

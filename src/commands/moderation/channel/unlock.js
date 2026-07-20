@@ -7,7 +7,6 @@ export default {
   data: new SlashCommandBuilder()
     .setName('unlock')
     .setDescription('Unlock a channel')
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(o => o.setName('channel').setDescription('Channel to unlock').addChannelTypes(ChannelType.GuildText)),
 
   async execute(interaction) {
