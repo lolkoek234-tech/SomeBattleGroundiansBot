@@ -55,7 +55,7 @@ export default {
         return interaction.reply({ embeds: [modEmbed({ desc: 'Invalid ticket type.' })], ephemeral: true });
       }
 
-      const newState = !current;
+      const newState = !ticketTypes[type];
       ticketTypes[type] = newState;
       configManager.update(interaction.guild.id, { ticketTypes });
 
