@@ -39,6 +39,8 @@ export default {
     };
 
     const ticketTypes = { ...DEFAULT_TICKET_TYPES, ...(config.ticketTypes || {}) };
+    ticketTypes.staff_application = DEFAULT_TICKET_TYPES.staff_application;
+    ticketTypes.tester_application = DEFAULT_TICKET_TYPES.tester_application;
 
     const panelData = buildTicketPanel('attachment://support_card.png', emojis, ticketTypes);
     const channelId = config.ticketChannelId || interaction.channel.id;
