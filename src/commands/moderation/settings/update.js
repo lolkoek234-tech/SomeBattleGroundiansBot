@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, Routes } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, Routes, MessageFlags } from 'discord.js';
 import { existsSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -23,7 +23,7 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const config = configManager.get(interaction.guild.id);
     if (!config) {
