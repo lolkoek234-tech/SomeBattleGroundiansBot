@@ -16,7 +16,9 @@ client.once('ready', async () => {
     const modCommands = await loadModCommands(client);
     const setupCmd = (await import('./src/commands/setup.js')).default;
     client.commands.set(setupCmd.data.name, setupCmd);
-    const allCommands = [setupCmd.data.toJSON(), ...modCommands];
+    const helpCmd = (await import('./src/commands/help.js')).default;
+    client.commands.set(helpCmd.data.name, helpCmd);
+    const allCommands = [setupCmd.data.toJSON(), helpCmd.data.toJSON(), ...modCommands];
     const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
     await rest.put(Routes.applicationCommands(client.user.id), { body: allCommands });
   } catch (err) {
@@ -25,6 +27,12 @@ client.once('ready', async () => {
 });
 
 client.on('interactionCreate', async (interaction) => {
+  if (interaction.isAutocomplete()) {
+    const command = client.commands.get(interaction.commandName);
+    if (command?.autocomplete) await command.autocomplete(interaction);
+    return;
+  }
+
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName);
     if (command) {
