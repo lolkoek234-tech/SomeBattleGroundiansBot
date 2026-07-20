@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes, MessageFlags } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Routes } from 'discord.js';
 import { existsSync, readFileSync } from 'fs';
 import { configManager } from '../configManager.js';
 import { buildTicketPanel } from '../utils/embedBuilder.js';
@@ -6,6 +6,14 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const DEFAULT_TICKET_TYPES = {
+  support: true,
+  player_report: true,
+  content_creator: true,
+  staff_application: false,
+  tester_application: false,
+};
 
 export default {
   data: new SlashCommandBuilder()
@@ -68,11 +76,9 @@ export default {
       }
 
       const assetDir = join(__dirname, '..', '..', 'assets');
-      const imageFiles = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
-      for (const f of imageFiles) {
-        if (!existsSync(join(assetDir, f))) {
-          return interaction.editReply(`Setup failed: \`assets/${f}\` not found.`);
-        }
+      const bannerFile = 'support_card.png';
+      if (!existsSync(join(assetDir, bannerFile))) {
+        return interaction.editReply(`Setup failed: \`assets/${bannerFile}\` not found.`);
       }
 
       const resolveEmoji = (name) => {
@@ -80,28 +86,26 @@ export default {
         return e ? { name: e.name, id: e.id, animated: e.animated ?? false } : undefined;
       };
 
-      const images = {
-        banner: 'attachment://support_card.png',
-        ticketTypes: {
-          support: 'attachment://general_support.png',
-          player_report: 'attachment://report.png',
-          content_creator: 'attachment://content_creator.png',
-        },
-        emojis: {
-          support: resolveEmoji('General_Support'),
-          player_report: resolveEmoji('Report'),
-          content_creator: resolveEmoji('ContentCreator'),
-        },
+      const emojis = {
+        support: resolveEmoji('General_Support'),
+        player_report: resolveEmoji('Report'),
+        content_creator: resolveEmoji('ContentCreator'),
+        staff_application: resolveEmoji('Staff'),
+        tester_application: resolveEmoji('Tester'),
       };
 
-      const panelData = buildTicketPanel(images);
+      const bannerUrl = 'attachment://support_card.png';
+      const panelData = buildTicketPanel(bannerUrl, emojis, DEFAULT_TICKET_TYPES);
+
+      const allAssets = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
+      const files = allAssets.filter(f => existsSync(join(assetDir, f))).map(f => ({
+        data: readFileSync(join(assetDir, f)),
+        name: f,
+        contentType: 'image/png',
+      }));
 
       const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
-        files: imageFiles.map(f => ({
-          data: readFileSync(join(assetDir, f)),
-          name: f,
-          contentType: 'image/png',
-        })),
+        files,
         body: {
           flags: 32768,
           components: panelData.components,
@@ -120,6 +124,8 @@ export default {
         logChannelId: logChannel.id,
         ticketCounter: 0,
         panelMessageId: panelMsg.id,
+        emojis,
+        ticketTypes: { ...DEFAULT_TICKET_TYPES },
       });
 
       await interaction.editReply('Ticket system is set up!');

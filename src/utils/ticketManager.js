@@ -7,6 +7,8 @@ const TICKET_TYPES = {
   support: 'Support',
   player_report: 'Player Report',
   content_creator: 'Content Creator Application',
+  staff_application: 'Staff Application',
+  tester_application: 'Tester Application',
 };
 
 const isStaff = (member, config) => {

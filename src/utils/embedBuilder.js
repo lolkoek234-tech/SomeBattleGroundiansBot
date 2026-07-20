@@ -1,6 +1,14 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, SeparatorBuilder, TextDisplayBuilder, ContainerBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags } from 'discord.js';
 
-export const buildTicketPanel = (images) => {
+const ALL_TICKET_OPTIONS = [
+  { label: 'Support', value: 'support', emojiKey: 'support', description: 'Get help with server issues' },
+  { label: 'Player Report', value: 'player_report', emojiKey: 'player_report', description: 'Report a player for rule violations' },
+  { label: 'Content Creator Application', value: 'content_creator', emojiKey: 'content_creator', description: 'Apply for content creator' },
+  { label: 'Staff Application', value: 'staff_application', emojiKey: 'staff_application', description: 'Apply for staff position' },
+  { label: 'Tester Application', value: 'tester_application', emojiKey: 'tester_application', description: 'Apply to be a tester' },
+];
+
+export const buildTicketPanel = (bannerUrl, emojis = {}, enabledTypes = {}) => {
   const container = new ContainerBuilder()
     .setAccentColor(0x8B0000)
     .addTextDisplayComponents(new TextDisplayBuilder().setContent([
@@ -10,24 +18,23 @@ export const buildTicketPanel = (images) => {
     ].join('\n')))
     .addSeparatorComponents(new SeparatorBuilder().setDivider());
 
-  if (images?.banner) {
+  if (bannerUrl) {
     container.addMediaGalleryComponents(
       new MediaGalleryBuilder().addItems(
-        new MediaGalleryItemBuilder().setURL(images.banner),
+        new MediaGalleryItemBuilder().setURL(bannerUrl),
       ),
     );
     container.addSeparatorComponents(new SeparatorBuilder().setDivider());
   }
 
-  const emojis = images?.emojis ?? {};
+  const options = ALL_TICKET_OPTIONS
+    .filter(o => enabledTypes[o.value] !== false)
+    .map(o => ({ label: o.label, value: o.value, emoji: emojis[o.emojiKey], description: o.description }));
+
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId('ticket_type_select')
     .setPlaceholder('Select a ticket type...')
-    .addOptions([
-      { label: 'Support', value: 'support', emoji: emojis.support, description: 'Get help with server issues' },
-      { label: 'Player Report', value: 'player_report', emoji: emojis.player_report, description: 'Report a player for rule violations' },
-      { label: 'Content Creator Application', value: 'content_creator', emoji: emojis.content_creator, description: 'Apply for content creator' },
-    ]);
+    .addOptions(options);
 
   container.addActionRowComponents(
     new ActionRowBuilder().addComponents(dropdown),
