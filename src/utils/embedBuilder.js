@@ -44,7 +44,7 @@ export const buildTicketPanel = (images) => {
 
 export const buildTicketOpener = (type, ticketNumber) => {
   const container = new ContainerBuilder()
-    .setAccentColor(0x57F287)
+    .setAccentColor(0x8B0000)
     .addTextDisplayComponents(
       new TextDisplayBuilder().setContent(
         `## Ticket #${ticketNumber} — ${type}\nA staff member will be with you shortly. Please describe your issue.`,
@@ -53,8 +53,8 @@ export const buildTicketOpener = (type, ticketNumber) => {
     .addSeparatorComponents(new SeparatorBuilder().setDivider())
     .addActionRowComponents(
       new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('claim_ticket').setLabel('Claim').setStyle(ButtonStyle.Primary),
-        new ButtonBuilder().setCustomId('close_ticket').setLabel('Close').setStyle(ButtonStyle.Danger),
+        new ButtonBuilder().setCustomId('claim_ticket').setLabel('Claim').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('close_ticket').setLabel('Close').setStyle(ButtonStyle.Secondary),
       ),
     );
 
