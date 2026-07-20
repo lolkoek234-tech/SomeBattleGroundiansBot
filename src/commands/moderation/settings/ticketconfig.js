@@ -46,8 +46,8 @@ export default {
           support: true,
           player_report: true,
           content_creator: true,
-          staff_application: false,
-          tester_application: false,
+          staff_application: true,
+          tester_application: true,
         };
         configManager.update(interaction.guild.id, { ticketTypes });
       }
