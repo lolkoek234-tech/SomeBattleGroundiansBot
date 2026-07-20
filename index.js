@@ -4,28 +4,24 @@ import { Client, GatewayIntentBits, REST, Routes, Collection } from 'discord.js'
 import { handleTicketDropdown } from './src/interactions/ticketDropdown.js';
 import { handleClaimButton } from './src/interactions/claimButton.js';
 import { handleCloseButton } from './src/interactions/closeButton.js';
+import { loadModCommands } from './src/commands/registerModCommands.js';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 
-const registerCommands = async () => {
+client.once('ready', async () => {
+  console.log(`Logged in as ${client.user.tag}`);
   try {
+    const modCommands = await loadModCommands(client);
     const setupCmd = (await import('./src/commands/setup.js')).default;
     client.commands.set(setupCmd.data.name, setupCmd);
-
-    const commands = [setupCmd.data.toJSON()];
+    const allCommands = [setupCmd.data.toJSON(), ...modCommands];
     const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
-
-    await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+    await rest.put(Routes.applicationCommands(client.user.id), { body: allCommands });
   } catch (err) {
-    console.warn('Command registration failed:', err.message);
+    console.error('Command registration failed:', err.message);
   }
-};
-
-client.once('ready', () => {
-  console.log(`Logged in as ${client.user.tag}`);
-  registerCommands();
 });
 
 client.on('interactionCreate', async (interaction) => {
