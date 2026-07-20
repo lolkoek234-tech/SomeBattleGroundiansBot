@@ -97,24 +97,41 @@ export default {
       const bannerUrl = 'attachment://support_card.png';
       const panelData = buildTicketPanel(bannerUrl, emojis, DEFAULT_TICKET_TYPES);
 
-      const allAssets = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
-      const files = allAssets.filter(f => existsSync(join(assetDir, f))).map(f => ({
-        data: readFileSync(join(assetDir, f)),
-        name: f,
-        contentType: 'image/png',
-      }));
+      let panelMsgId = null;
+      const existingConfig = configManager.get(interaction.guild.id);
+      if (existingConfig?.panelMessageId && existingConfig?.ticketChannelId) {
+        try {
+          const oldChannel = await interaction.guild.channels.fetch(existingConfig.ticketChannelId);
+          if (oldChannel) {
+            const oldMsg = await oldChannel.messages.fetch(existingConfig.panelMessageId).catch(() => null);
+            if (oldMsg) {
+              await interaction.client.rest.patch(
+                Routes.channelMessage(existingConfig.ticketChannelId, existingConfig.panelMessageId),
+                { body: { components: panelData.components } },
+              );
+              panelMsgId = existingConfig.panelMessageId;
+              await interaction.editReply('Updated existing ticket panel.');
+            }
+          }
+        } catch {}
+      }
 
-      const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
-        files,
-        body: {
-          flags: 32768,
-          components: panelData.components,
-        },
-      });
-
-      let panelMsg = interaction.channel.messages.cache.get(panelMsgRaw.id);
-      if (!panelMsg) {
-        panelMsg = await interaction.channel.messages.fetch(panelMsgRaw.id);
+      if (!panelMsgId) {
+        const allAssets = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
+        const files = allAssets.filter(f => existsSync(join(assetDir, f))).map(f => ({
+          data: readFileSync(join(assetDir, f)),
+          name: f,
+          contentType: 'image/png',
+        }));
+        const panelMsgRaw = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
+          files,
+          body: {
+            flags: 32768,
+            components: panelData.components,
+          },
+        });
+        panelMsgId = panelMsgRaw.id;
+        await interaction.editReply('Ticket system is set up!');
       }
 
       configManager.set(interaction.guild.id, {

@@ -40,9 +40,18 @@ export default {
         return interaction.reply({ embeds: [modEmbed({ desc: 'Server not configured. Run /setup first.' })], ephemeral: true });
       }
 
-      const ticketTypes = config.ticketTypes || {};
-      const current = ticketTypes[type];
-      if (current === undefined) {
+      let ticketTypes = config.ticketTypes;
+      if (!ticketTypes) {
+        ticketTypes = {
+          support: true,
+          player_report: true,
+          content_creator: true,
+          staff_application: false,
+          tester_application: false,
+        };
+        configManager.update(interaction.guild.id, { ticketTypes });
+      }
+      if (ticketTypes[type] === undefined) {
         return interaction.reply({ embeds: [modEmbed({ desc: 'Invalid ticket type.' })], ephemeral: true });
       }
 
