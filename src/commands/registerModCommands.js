@@ -9,11 +9,11 @@ export const loadModCommands = async (client) => {
   const commands = [];
 
   for (const cat of categories) {
-    const dir = join(__dirname, 'commands', 'moderation', cat);
+    const dir = join(__dirname, 'moderation', cat);
     let files;
     try { files = readdirSync(dir).filter(f => f.endsWith('.js')); } catch { continue; }
     for (const file of files) {
-      const mod = await import(`./commands/moderation/${cat}/${file}`);
+      const mod = await import(`./moderation/${cat}/${file}`);
       const cmd = mod.default;
       if (cmd?.data?.name) {
         client.commands.set(cmd.data.name, cmd);
