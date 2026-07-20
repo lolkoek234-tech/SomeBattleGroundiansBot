@@ -7,7 +7,7 @@ export default {
     .setDescription('Get detailed server information'),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const g = interaction.guild;
     const members = g.members.cache;
     const channels = g.channels.cache;

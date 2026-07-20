@@ -12,7 +12,7 @@ export default {
     .addIntegerOption(o => o.setName('index').setDescription('Warning number (use /warnings to find it)').setRequired(true).setMinValue(1)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const user = interaction.options.getUser('user', true);
     const index = interaction.options.getInteger('index', true) - 1;
 

@@ -9,7 +9,7 @@ export default {
     .addIntegerOption(o => o.setName('case_id').setDescription('Case ID').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const id = interaction.options.getInteger('case_id', true);
     const record = caseManager.get(interaction.guild.id, id);
 

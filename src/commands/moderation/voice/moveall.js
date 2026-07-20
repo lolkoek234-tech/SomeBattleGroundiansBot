@@ -11,7 +11,7 @@ export default {
     .addChannelOption(o => o.setName('target').setDescription('Target voice channel').setRequired(true).addChannelTypes(ChannelType.GuildVoice)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const source = interaction.options.getChannel('source', true);
     const target = interaction.options.getChannel('target', true);
 

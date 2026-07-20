@@ -11,7 +11,7 @@ export default {
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const user = interaction.options.getUser('user', true);
 
     warnManager.clear(interaction.guild.id, user.id);

@@ -10,7 +10,7 @@ export default {
     .addIntegerOption(o => o.setName('amount').setDescription('Number of messages to delete').setRequired(true).setMinValue(1).setMaxValue(100)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const amount = interaction.options.getInteger('amount', true);
 
     try {

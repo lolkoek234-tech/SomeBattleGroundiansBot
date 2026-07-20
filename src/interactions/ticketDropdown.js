@@ -7,7 +7,7 @@ export const handleTicketDropdown = async (interaction) => {
   const type = interaction.values[0];
   if (!type) return false;
 
-  await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+  await interaction.deferReply();
 
   try {
     const channel = await ticketManager.create(interaction.guild, interaction.member, type);

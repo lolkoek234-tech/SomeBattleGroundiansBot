@@ -9,7 +9,7 @@ export default {
     .addStringOption(o => o.setName('query').setDescription('Search by user ID, moderator ID, or reason').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const query = interaction.options.getString('query', true);
     const results = caseManager.search(interaction.guild.id, query);
 

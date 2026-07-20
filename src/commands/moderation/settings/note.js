@@ -11,7 +11,7 @@ export default {
     .addStringOption(o => o.setName('content').setDescription('Note content').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const user = interaction.options.getUser('user', true);
     const content = interaction.options.getString('content', true);
 

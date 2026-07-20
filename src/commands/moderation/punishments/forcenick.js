@@ -11,7 +11,7 @@ export default {
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const user = interaction.options.getUser('user', true);
     const nickname = interaction.options.getString('nickname', true);
     const reason = interaction.options.getString('reason') || 'Nickname changed';

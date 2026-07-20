@@ -9,7 +9,7 @@ export default {
     .setDescription('Generate server moderation statistics chart'),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const gid = interaction.guild.id;
 
     const all = caseManager.list(gid);

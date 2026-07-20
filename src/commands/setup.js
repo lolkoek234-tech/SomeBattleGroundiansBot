@@ -14,7 +14,7 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    await interaction.deferReply();
 
     await interaction.editReply('Please mention the staff roles that should have access to tickets (e.g. @Admin @Mod). Send one or more messages mentioning roles, then type `done` when finished.');
 

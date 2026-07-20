@@ -10,7 +10,7 @@ export default {
     .addIntegerOption(o => o.setName('seconds').setDescription('Slowmode in seconds').setRequired(true).setMinValue(0).setMaxValue(21600)),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply();
     const seconds = interaction.options.getInteger('seconds', true);
 
     try {
