@@ -34,15 +34,18 @@ export const ticketManager = {
       })),
     ];
 
+    const safeName = member.user.username.replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase().slice(0, 80) || `user-${member.id.slice(0, 6)}`;
+    const channelName = `ticket-${safeName}`;
     const channel = await guild.channels.create({
-      name: `ticket-${ticketNumber}`,
+      name: channelName,
       type: ChannelType.GuildText,
       parent: category.id,
       permissionOverwrites,
       topic: `Ticket #${ticketNumber} | ${TICKET_TYPES[type]} | Created by ${member.user.tag}`,
     });
 
-    await channel.send({ content: `${member}` });
+    const staffPing = config.staffRoles.map(r => `<@&${r}>`).join(' ');
+    await channel.send({ content: `${member} ${staffPing}` });
     const opener = buildTicketOpener(TICKET_TYPES[type], ticketNumber);
     await guild.client.rest.post(Routes.channelMessages(channel.id), {
       body: { flags: 32768, components: opener.components },
