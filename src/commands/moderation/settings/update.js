@@ -1,7 +1,12 @@
 import { SlashCommandBuilder, PermissionFlagsBits, Routes } from 'discord.js';
+import { existsSync, readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { configManager } from '../../../configManager.js';
 import { buildTicketPanel } from '../../../utils/embedBuilder.js';
 import { modEmbed } from '../../../utils/modEmbed.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_TICKET_TYPES = {
   support: true,
@@ -62,8 +67,14 @@ export default {
     }
 
     if (!panelMsgId) {
-      const channel = await interaction.guild.channels.fetch(channelId);
+      const assetDir = join(__dirname, '..', '..', '..', 'assets');
+      const bannerFile = 'support_card.png';
+      const files = [];
+      if (existsSync(join(assetDir, bannerFile))) {
+        files.push({ data: readFileSync(join(assetDir, bannerFile)), name: bannerFile, contentType: 'image/png' });
+      }
       const newMsg = await interaction.client.rest.post(Routes.channelMessages(channelId), {
+        files,
         body: { flags: 32768, components: panelData.components },
       });
       panelMsgId = newMsg.id;
