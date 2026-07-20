@@ -9,7 +9,7 @@ export default {
     .addUserOption(o => o.setName('user').setDescription('Filter by user')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const user = interaction.options.getUser('user');
     const filter = user ? { userId: user.id } : {};
     const cases = caseManager.list(interaction.guild.id, filter).slice(0, 10);

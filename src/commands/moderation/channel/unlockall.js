@@ -9,7 +9,7 @@ export default {
     .setDescription('Unlock all text channels'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
       const channels = interaction.guild.channels.cache.filter(c => c.isTextBased() && c.manageable);

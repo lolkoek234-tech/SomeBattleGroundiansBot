@@ -10,7 +10,7 @@ export default {
     .addUserOption(o => o.setName('user').setDescription('The user').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const user = interaction.options.getUser('user', true);
     const member = interaction.guild.members.cache.get(user.id);
     const warns = warnManager.list(interaction.guild.id, user.id);

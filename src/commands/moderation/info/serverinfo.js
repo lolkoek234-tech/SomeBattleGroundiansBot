@@ -7,7 +7,7 @@ export default {
     .setDescription('Get detailed server information'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const g = interaction.guild;
     const channels = g.channels.cache;
     const roles = g.roles.cache;

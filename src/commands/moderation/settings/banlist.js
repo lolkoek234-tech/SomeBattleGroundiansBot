@@ -7,7 +7,7 @@ export default {
     .setDescription('List all banned users'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
       const bans = await interaction.guild.bans.fetch();

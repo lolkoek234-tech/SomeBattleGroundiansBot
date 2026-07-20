@@ -81,7 +81,7 @@ export default {
 
       const label = TYPE_LABELS[type] || type;
       const status = newState ? 'enabled' : 'disabled';
-      await interaction.reply({ embeds: [modEmbed({ desc: `${label} is now **${status}**.` })] });
+      await interaction.reply({ embeds: [modEmbed({ desc: `${label} is now **${status}**.` })], ephemeral: true });
     }
   },
 };

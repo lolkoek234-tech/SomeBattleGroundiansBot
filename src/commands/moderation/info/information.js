@@ -7,7 +7,7 @@ export default {
     .setDescription('Information about the bot'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const client = interaction.client;
     const guilds = client.guilds.cache.size;
     const commands = client.commands.size;

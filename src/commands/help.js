@@ -68,7 +68,7 @@ export default {
   },
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const cmdName = interaction.options.getString('command');
 
     if (cmdName) {

@@ -10,7 +10,7 @@ export default {
     .addChannelOption(o => o.setName('channel').setDescription('Channel to nuke')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const channel = interaction.options.getChannel('channel') || interaction.channel;
 
     try {

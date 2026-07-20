@@ -10,7 +10,7 @@ export default {
     .addStringOption(o => o.setName('reason').setDescription('Reason for denial')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const id = interaction.options.getInteger('case_id', true);
     const reason = interaction.options.getString('reason') || 'Appeal denied';
 

@@ -10,7 +10,7 @@ export default {
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const reason = interaction.options.getString('reason') || 'Server lockdown';
 
     try {

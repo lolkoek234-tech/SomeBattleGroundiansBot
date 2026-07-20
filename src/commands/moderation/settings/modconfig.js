@@ -13,10 +13,10 @@ export default {
     const sub = interaction.options.getSubcommand();
     if (sub === 'logchannel') {
       modConfigManager.set(interaction.guild.id, { logChannel: interaction.options.getChannel('channel', true).id });
-      await interaction.reply({ embeds: [successEmbed('Log channel set')] });
+      await interaction.reply({ embeds: [successEmbed('Log channel set')], ephemeral: true });
     } else if (sub === 'muterole') {
       modConfigManager.set(interaction.guild.id, { muteRole: interaction.options.getRole('role', true).id });
-      await interaction.reply({ embeds: [successEmbed('Mute role set')] });
+      await interaction.reply({ embeds: [successEmbed('Mute role set')], ephemeral: true });
     }
   },
 };

@@ -7,7 +7,7 @@ export default {
     .setDescription('Show all roles in the server'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const roles = interaction.guild.roles.cache
       .filter(r => r.id !== interaction.guild.id)
       .sort((a, b) => b.position - a.position);

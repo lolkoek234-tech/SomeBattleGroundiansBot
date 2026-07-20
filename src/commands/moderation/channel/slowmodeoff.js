@@ -9,7 +9,7 @@ export default {
     .setDescription('Disable slowmode in the current channel'),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
       await interaction.channel.setRateLimitPerUser(0);

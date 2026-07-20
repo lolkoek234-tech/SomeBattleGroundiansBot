@@ -11,7 +11,7 @@ export default {
     .addStringOption(o => o.setName('evidence').setDescription('Evidence URL')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const user = interaction.options.getUser('user', true);
     const reason = interaction.options.getString('reason', true);
     const evidence = interaction.options.getString('evidence');

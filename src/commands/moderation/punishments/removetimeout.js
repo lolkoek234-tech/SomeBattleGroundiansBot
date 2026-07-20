@@ -9,7 +9,7 @@ export default {
     .addUserOption(o => o.setName('user').setDescription('Member to remove timeout from').setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const user = interaction.options.getUser('user', true);
     const member = interaction.guild.members.cache.get(user.id);
     if (!member) return interaction.editReply({ embeds: [errorEmbed('User not in server.')] });

@@ -11,7 +11,7 @@ export default {
     .addStringOption(o => o.setName('duration').setDescription('Duration for timeout (e.g. 1h, 1d)')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const maxWarns = interaction.options.getInteger('max_warns', true);
     const action = interaction.options.getString('action', true);
     const durationStr = interaction.options.getString('duration') || '1h';

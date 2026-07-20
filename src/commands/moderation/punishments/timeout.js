@@ -11,7 +11,7 @@ export default {
     .addStringOption(o => o.setName('reason').setDescription('Reason')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const user = interaction.options.getUser('user', true);
     const durationStr = interaction.options.getString('duration', true);
     const reason = interaction.options.getString('reason') || 'No reason provided';

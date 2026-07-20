@@ -16,7 +16,7 @@ export default {
     .addUserOption(o => o.setName('user5').setDescription('User 5')),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const role = interaction.options.getRole('role', true);
     const action = interaction.options.getString('action', true);
 
