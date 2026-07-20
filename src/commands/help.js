@@ -68,6 +68,7 @@ export default {
   },
 
   async execute(interaction) {
+    await interaction.deferReply();
     const cmdName = interaction.options.getString('command');
 
     if (cmdName) {
