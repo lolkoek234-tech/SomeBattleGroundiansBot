@@ -13,11 +13,15 @@ export const loadModCommands = async (client) => {
     let files;
     try { files = readdirSync(dir).filter(f => f.endsWith('.js')); } catch { continue; }
     for (const file of files) {
-      const mod = await import(`./moderation/${cat}/${file}`);
-      const cmd = mod.default;
-      if (cmd?.data?.name) {
-        client.commands.set(cmd.data.name, cmd);
-        commands.push(cmd.data.toJSON());
+      try {
+        const mod = await import(`./moderation/${cat}/${file}`);
+        const cmd = mod.default;
+        if (cmd?.data?.name) {
+          client.commands.set(cmd.data.name, cmd);
+          commands.push(cmd.data.toJSON());
+        }
+      } catch (err) {
+        console.error(`Failed to load command ${cat}/${file}:`, err.message);
       }
     }
   }
