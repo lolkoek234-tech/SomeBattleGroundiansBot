@@ -71,7 +71,7 @@ export default {
       const imageFiles = ['support_card.png', 'general_support.png', 'report.png', 'content_creator.png'];
       for (const f of imageFiles) {
         if (!existsSync(join(assetDir, f))) {
-          return interaction.editReply(`❌ Setup failed: \`assets/${f}\` not found.`);
+          return interaction.editReply(`Setup failed: \`assets/${f}\` not found.`);
         }
       }
 
@@ -122,10 +122,10 @@ export default {
         panelMessageId: panelMsg.id,
       });
 
-      await interaction.editReply('✅ Ticket system is set up!');
+      await interaction.editReply('Ticket system is set up!');
     } catch (err) {
       console.error('Setup failed:', err);
-      await interaction.editReply(`❌ Setup failed: ${err.message}`);
+      await interaction.editReply(`Setup failed: ${err.message}`);
     }
   }
 };

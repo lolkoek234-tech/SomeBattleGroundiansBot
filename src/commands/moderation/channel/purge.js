@@ -18,7 +18,7 @@ export default {
       await interaction.channel.bulkDelete(msgs);
       const record = caseManager.create(interaction.guild.id, { type: 'purge', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `Purged ${msgs.size} messages` });
       await sendModLog(interaction.guild, record);
-      const reply = await interaction.channel.send({ embeds: [modEmbed({ desc: `🧹 Deleted ${msgs.size} messages` })] });
+      const reply = await interaction.channel.send({ embeds: [modEmbed({ desc: `Deleted ${msgs.size} messages` })] });
       setTimeout(() => reply.delete().catch(() => {}), 3000);
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });

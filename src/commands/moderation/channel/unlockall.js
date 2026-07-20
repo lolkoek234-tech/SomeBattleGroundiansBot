@@ -19,7 +19,7 @@ export default {
       }
       const record = caseManager.create(interaction.guild.id, { type: 'unlock', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `Unlocked ${count} channels` });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔓 Unlocked ${count} channels` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Unlocked ${count} channels` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

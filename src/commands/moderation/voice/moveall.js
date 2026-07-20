@@ -23,7 +23,7 @@ export default {
       }
       const record = caseManager.create(interaction.guild.id, { type: 'moveall', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: `Moved ${count} members from ${source.name} to ${target.name}` });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔀 Moved ${count} members to ${target.name}` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Moved ${count} members to ${target.name}` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

@@ -19,6 +19,6 @@ export const modEmbed = (opts = {}) => {
   return e;
 };
 
-export const successEmbed = (desc, opts = {}) => modEmbed({ ...opts, desc: `✅ ${desc}` });
+export const successEmbed = (desc, opts = {}) => modEmbed({ ...opts, desc });
 
-export const errorEmbed = (desc) => modEmbed({ desc: `❌ ${desc}` });
+export const errorEmbed = (desc) => modEmbed({ desc });

@@ -17,7 +17,7 @@ export default {
       await channel.permissionOverwrites.edit(interaction.guild.id, { SendMessages: null });
       const record = caseManager.create(interaction.guild.id, { type: 'unlock', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: 'Unlocked' });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔓 Unlocked ${channel}` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Unlocked ${channel}` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

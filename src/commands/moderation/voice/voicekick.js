@@ -21,7 +21,7 @@ export default {
       await member.voice.disconnect(reason);
       const record = caseManager.create(interaction.guild.id, { type: 'voicekick', userId: user.id, moderatorId: interaction.user.id, reason });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔇 Disconnected ${user.tag} from voice` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Disconnected ${user.tag} from voice` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

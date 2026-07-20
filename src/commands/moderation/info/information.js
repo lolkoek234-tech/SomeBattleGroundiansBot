@@ -1,7 +1,5 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { modEmbed } from '../../../utils/modEmbed.js';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 
 export default {
   data: new SlashCommandBuilder()
@@ -12,7 +10,6 @@ export default {
     await interaction.deferReply();
     const client = interaction.client;
     const guilds = client.guilds.cache.size;
-    const users = client.users.cache.size;
     const commands = client.commands.size;
     const uptime = Math.floor(client.uptime / 1000);
     const days = Math.floor(uptime / 86400);
@@ -24,11 +21,11 @@ export default {
       desc: 'A moderation and ticket management bot for **Battlegroundians**.\n\nBuilt with discord.js v14, featuring a full moderation suite, automatic ticket system, and server management tools.',
       thumb: client.user.displayAvatarURL(),
       fields: [
-        { name: '🤖 Developer', value: '**Marihuanaplant**', inline: true },
-        { name: '📊 Servers', value: `${guilds}`, inline: true },
-        { name: '📝 Commands', value: `${commands}`, inline: true },
-        { name: '⏱ Uptime', value: `${days}d ${hours}h ${minutes}m`, inline: true },
-        { name: '🛠 Features', value: [
+        { name: 'Developer', value: '**Marihuanaplant**', inline: true },
+        { name: 'Servers', value: `${guilds}`, inline: true },
+        { name: 'Commands', value: `${commands}`, inline: true },
+        { name: 'Uptime', value: `${days}d ${hours}h ${minutes}m`, inline: true },
+        { name: 'Features', value: [
           '• Moderation (ban, kick, timeout, warn, etc.)',
           '• Ticket system (support, reports, applications)',
           '• Channel management (lock, slowmode, nuke, purge)',

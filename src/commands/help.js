@@ -3,11 +3,11 @@ import { modEmbed } from '../utils/modEmbed.js';
 
 const CATEGORY_ORDER = ['punishments', 'channel', 'info', 'voice', 'settings'];
 const CATEGORY_LABELS = {
-  punishments: '🛠️ Punishments',
-  channel: '📋 Channel',
-  info: 'ℹ️ Info',
-  voice: '🔊 Voice',
-  settings: '⚙️ Settings',
+  punishments: 'Punishments',
+  channel: 'Channel',
+  info: 'Info',
+  voice: 'Voice',
+  settings: 'Settings',
 };
 
 const cmdCategory = new Map();
@@ -101,7 +101,7 @@ export default {
 
     const extra = ['setup', 'help'].filter(c => interaction.client.commands.has(c));
     if (extra.length) {
-      embed.addFields({ name: '⚙️ System', value: extra.map(c => `\`/${c}\``).join(' '), inline: false });
+      embed.addFields({ name: 'System', value: extra.map(c => `\`/${c}\``).join(' '), inline: false });
     }
 
     embed.setFooter({ text: 'Battlegroundians Moderation' });

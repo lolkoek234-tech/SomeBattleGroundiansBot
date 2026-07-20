@@ -11,9 +11,9 @@ export const handleTicketDropdown = async (interaction) => {
 
   try {
     const channel = await ticketManager.create(interaction.guild, interaction.member, type);
-    await interaction.editReply(`✅ Ticket created! Check ${channel}`);
+    await interaction.editReply(`Ticket created! Check ${channel}`);
   } catch (err) {
-    await interaction.editReply(`❌ ${err.message}`);
+    await interaction.editReply(`${err.message}`);
   }
   return true;
 };

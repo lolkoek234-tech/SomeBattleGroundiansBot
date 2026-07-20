@@ -9,9 +9,9 @@ export const handleCloseButton = async (interaction) => {
     return true;
   } catch (err) {
     if (interaction.deferred || interaction.replied) {
-      await interaction.editReply({ content: `❌ ${err.message}` });
+      await interaction.editReply({ content: `${err.message}` });
     } else {
-      await interaction.reply({ content: `❌ ${err.message}`, flags: MessageFlags.Ephemeral });
+      await interaction.reply({ content: `${err.message}`, flags: MessageFlags.Ephemeral });
     }
     return true;
   }

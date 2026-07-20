@@ -21,7 +21,7 @@ export default {
       await member.voice.setMute(true, reason);
       const record = caseManager.create(interaction.guild.id, { type: 'voicemute', userId: user.id, moderatorId: interaction.user.id, reason });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔇 Voice muted ${user.tag}` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Voice muted ${user.tag}` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

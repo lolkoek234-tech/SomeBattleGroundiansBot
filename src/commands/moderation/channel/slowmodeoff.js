@@ -15,7 +15,7 @@ export default {
       await interaction.channel.setRateLimitPerUser(0);
       const record = caseManager.create(interaction.guild.id, { type: 'slowmode', userId: interaction.guild.id, moderatorId: interaction.user.id, reason: 'Slowmode disabled' });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: '🐢 Slowmode disabled' })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: 'Slowmode disabled' })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

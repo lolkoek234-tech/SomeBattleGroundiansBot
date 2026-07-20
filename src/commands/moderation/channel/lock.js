@@ -19,7 +19,7 @@ export default {
       await channel.permissionOverwrites.edit(interaction.guild.id, { SendMessages: false });
       const record = caseManager.create(interaction.guild.id, { type: 'lock', userId: interaction.guild.id, moderatorId: interaction.user.id, reason });
       await sendModLog(interaction.guild, record);
-      await interaction.editReply({ embeds: [modEmbed({ desc: `🔒 Locked ${channel}` })] });
+      await interaction.editReply({ embeds: [modEmbed({ desc: `Locked ${channel}` })] });
     } catch (err) {
       await interaction.editReply({ embeds: [errorEmbed(`Failed: ${err.message}`)] });
     }

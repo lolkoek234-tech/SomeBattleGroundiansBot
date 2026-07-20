@@ -42,7 +42,7 @@ export const sendModLog = async (guild, caseRecord) => {
     embed.addFields({ name: 'Duration', value: ms(caseRecord.duration), inline: true });
   }
   if (caseRecord.evidence) embed.setImage(caseRecord.evidence);
-  if (caseRecord.dm_success === false) embed.setFooter({ text: 'Battlegroundians Moderation — ⚠ Failed to DM user' });
+  if (caseRecord.dm_success === false) embed.setFooter({ text: 'Battlegroundians Moderation — Failed to DM user' });
 
   await channel.send({ embeds: [embed] });
 };
