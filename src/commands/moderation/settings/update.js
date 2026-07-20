@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, Routes, MessageFlags } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, Routes } from 'discord.js';
 import { existsSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -23,7 +23,7 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction) {
-    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    await interaction.deferReply({ ephemeral: true });
 
     const config = configManager.get(interaction.guild.id);
     if (!config) {
@@ -48,45 +48,25 @@ export default {
     ticketTypes.tester_application = DEFAULT_TICKET_TYPES.tester_application;
 
     const panelData = buildTicketPanel('attachment://support_card.png', emojis, ticketTypes);
-    const channelId = config.ticketChannelId || interaction.channel.id;
 
-    let panelMsgId = null;
-
-    if (config.panelMessageId && config.ticketChannelId) {
-      try {
-        const channel = await interaction.guild.channels.fetch(config.ticketChannelId);
-        const oldMsg = await channel?.messages.fetch(config.panelMessageId).catch(() => null);
-        if (oldMsg) {
-          await interaction.client.rest.patch(
-            Routes.channelMessage(config.ticketChannelId, config.panelMessageId),
-            { body: { components: panelData.components } },
-          );
-          panelMsgId = config.panelMessageId;
-        }
-      } catch {}
+    const assetDir = join(__dirname, '..', '..', '..', '..', 'assets');
+    const bannerFile = 'support_card.png';
+    const files = [];
+    if (existsSync(join(assetDir, bannerFile))) {
+      files.push({ data: readFileSync(join(assetDir, bannerFile)), name: bannerFile, contentType: 'image/png' });
     }
-
-    if (!panelMsgId) {
-      const assetDir = join(__dirname, '..', '..', '..', '..', 'assets');
-      const bannerFile = 'support_card.png';
-      const files = [];
-      if (existsSync(join(assetDir, bannerFile))) {
-        files.push({ data: readFileSync(join(assetDir, bannerFile)), name: bannerFile, contentType: 'image/png' });
-      }
-      const newMsg = await interaction.client.rest.post(Routes.channelMessages(channelId), {
-        files,
-        body: { flags: 32768, components: panelData.components },
-      });
-      panelMsgId = newMsg.id;
-    }
+    const newMsg = await interaction.client.rest.post(Routes.channelMessages(interaction.channel.id), {
+      files,
+      body: { flags: 32768, components: panelData.components },
+    });
 
     configManager.update(interaction.guild.id, {
-      ticketChannelId: channelId,
-      panelMessageId: panelMsgId,
+      ticketChannelId: interaction.channel.id,
+      panelMessageId: newMsg.id,
       emojis,
       ticketTypes,
     });
 
-    await interaction.editReply({ embeds: [modEmbed({ desc: 'Ticket panel updated to the latest version.' })] });
+    await interaction.editReply({ embeds: [modEmbed({ desc: 'Ticket panel updated. New panel posted in this channel.' })] });
   },
 };
