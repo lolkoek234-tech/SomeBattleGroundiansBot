@@ -14,7 +14,7 @@ const cmdCategory = new Map();
 const CATEGORY_CMDS = {
   punishments: ['ban', 'tempban', 'kick', 'timeout', 'removetimeout', 'warn', 'softban', 'forcenick'],
   channel: ['lock', 'unlock', 'lockall', 'unlockall', 'slowmode', 'slowmodeoff', 'nuke', 'purge'],
-  info: ['userinfo', 'serverinfo', 'modlogs', 'case', 'casesearch', 'warnings', 'history', 'serverstats'],
+  info: ['userinfo', 'serverinfo', 'modlogs', 'case', 'casesearch', 'warnings', 'history', 'serverstats', 'roles', 'information'],
   voice: ['voicemute', 'voicedeafen', 'voicekick', 'moveall'],
   settings: ['modconfig', 'banlist', 'note', 'massrole', 'warnconfig', 'removewarn', 'clearwarns', 'appealdeny'],
 };
